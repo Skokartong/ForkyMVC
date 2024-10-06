@@ -1,0 +1,40 @@
+﻿@model ForkyMVC.Models.Booking.AddBookingViewModel
+
+@{
+    ViewBag.Title = "Book a Table";
+}
+
+<div class="container mt-5">
+    <h1>Book a Table</h1>
+    <form asp-action="BookTable" method="post">
+        <div class="form-group">
+            <label asp-for="FK_RestaurantId" class="control-label"></label>
+            <select asp-for="FK_RestaurantId" class="form-control" asp-items="@(new SelectList(ViewBag.Restaurants, "Id", "RestaurantName"))">
+                <option value="">Select a Restaurant</option>
+            </select>
+            <span asp-validation-for="FK_RestaurantId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NumberOfGuests" class="control-label"></label>
+            <input asp-for="NumberOfGuests" class="form-control" type="number" min="1" />
+            <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BookingStart" class="control-label"></label>
+            <input asp-for="BookingStart" class="form-control" type="datetime-local" />
+            <span asp-validation-for="BookingStart" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="BookingEnd" class="control-label"></label>
+            <input asp-for="BookingEnd" class="form-control" type="datetime-local" />
+            <span asp-validation-for="BookingEnd" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message" class="control-label"></label>
+            <textarea asp-for="Message" class="form-control"></textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Book</button>
+    </form>
+</div>
+

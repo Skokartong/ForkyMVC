@@ -1,0 +1,37 @@
+﻿@model List<ForkyMVC.Models.Booking.ViewBookingViewModel>
+
+@{
+    ViewBag.Title = "My Bookings";
+}
+
+<div class="container mt-5">
+    <h1>My Bookings</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Restaurant</th>
+                <th>Number of Guests</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.RestaurantName</td>
+                    <td>@booking.NumberOfGuests</td>
+                    <td>@booking.BookingStart.ToString("g")</td>
+                    <td>@booking.BookingEnd.ToString("g")</td>
+                    <td>
+                        <a asp-action="UpdateBooking" asp-route-bookingId="@booking.Id" class="btn btn-warning">Update</a>
+                        <form asp-action="DeleteBooking" asp-route-reservationId="@booking.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,41 @@
+﻿@model List<ForkyMVC.Models.Restaurant.RestaurantViewModel>
+
+@{
+    ViewBag.Title = "View Restaurants";
+}
+
+<div class="container mt-5">
+    <h1>Restaurants</h1>
+    <a href="@Url.Action("AddRestaurant", "Admin")" class="btn btn-primary">Add New Restaurant</a>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Additional Info</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var restaurant in Model)
+            {
+                <tr>
+                    <td>@restaurant.Id</td>
+                    <td>@restaurant.RestaurantName</td>
+                    <td>@restaurant.TypeOfRestaurant</td>
+                    <td>@restaurant.Location</td>
+                    <td>@restaurant.AdditionalInformation</td>
+                    <td>
+                        <a href="@Url.Action("UpdateRestaurant", "Admin", new { restaurantId = restaurant.Id })" class="btn btn-warning">Edit</a>
+                        <form asp-action="DeleteRestaurant" method="post" class="d-inline">
+                            <input type="hidden" name="restaurantId" value="@restaurant.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

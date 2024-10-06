@@ -1,0 +1,53 @@
+﻿@model List<ForkyMVC.Models.Restaurant.RestaurantViewModel>
+
+@{
+    ViewBag.Title = "Restaurants";
+}
+
+<div class="container mt-5">
+    <h1>Restaurants</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Menu</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var restaurant in Model)
+            {
+                <tr>
+                    <td>@restaurant.RestaurantName</td>
+                    <td>@restaurant.Location</td>
+                    <td>@restaurant.TypeOfRestaurant</td>
+                    <td>
+                        <ul>
+                            @foreach (var menu in restaurant.Menus)
+                            {
+                                <li>
+                                    @menu.NameOfDish - @menu.Price.ToString("C"),
+                                    @menu.Drink,  @menu.Ingredients,
+                                    @if (menu.IsAvailable)
+                                    {
+                                        <span class="text-success">(Available)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">(Not Available)</span>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <a asp-action="BookTable" asp-route-restaurantId="@restaurant.Id" class="btn btn-primary">Book Table</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

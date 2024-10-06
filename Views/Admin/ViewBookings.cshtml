@@ -1,0 +1,37 @@
+﻿@model List<ForkyMVC.Models.Booking.ViewBookingViewModel>
+
+@{
+    ViewData["Title"] = "Customer Bookings";
+}
+
+<h1 class="my-4 text-center">Customer Bookings</h1>
+
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Restaurant Name</th>
+                    <th>Number of Guests</th>
+                    <th>Booking Start</th>
+                    <th>Booking End</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.CustomerName</td>
+                        <td>@booking.RestaurantName</td>
+                        <td>@booking.NumberOfGuests</td>
+                        <td>@booking.BookingStart.ToString("g")</td>
+                        <td>@booking.BookingEnd.ToString("g")</td>
+                        <td>@booking.Message</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

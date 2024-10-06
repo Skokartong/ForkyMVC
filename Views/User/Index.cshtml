@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "User Dashboard";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center">User Dashboard</h1>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Account Management</h5>
+                    <a asp-action="UpdateAccount" class="btn btn-primary">Update Account</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Restaurant Viewing</h5>
+                    <a asp-action="ViewRestaurants" class="btn btn-primary">View Restaurants</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Booking Management</h5>
+                    <a asp-action="ViewBookings" class="btn btn-primary">View Bookings</a>
+                    <a asp-action="BookTable" class="btn btn-secondary">Book a Table</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

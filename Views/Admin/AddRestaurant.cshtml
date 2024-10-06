@@ -1,0 +1,33 @@
+﻿@model ForkyMVC.Models.Restaurant.RestaurantViewModel
+
+@{
+    ViewBag.Title = "Add Restaurant";
+}
+
+<div class="container mt-5">
+    <h1>Add New Restaurant</h1>
+    <form asp-action="AddRestaurant" method="post">
+        <div class="form-group">
+            <label asp-for="RestaurantName"></label>
+            <input asp-for="RestaurantName" class="form-control" />
+            <span asp-validation-for="RestaurantName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TypeOfRestaurant"></label>
+            <input asp-for="TypeOfRestaurant" class="form-control" />
+            <span asp-validation-for="TypeOfRestaurant" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Location"></label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AdditionalInformation"></label>
+            <textarea asp-for="AdditionalInformation" class="form-control"></textarea>
+            <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Add Restaurant</button>
+    </form>
+</div>
+

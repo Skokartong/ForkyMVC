@@ -1,0 +1,22 @@
+﻿@model ForkyMVC.Models.Account.AccountViewModel
+
+<h2>My Account</h2>
+
+<div>
+    <h4>Account Information</h4>
+    <p><strong>ID:</strong> @Model.Id</p>
+    <p><strong>Username:</strong> @Model.UserName</p>
+    <p><strong>First Name:</strong> @Model.FirstName</p>
+    <p><strong>Last Name:</strong> @Model.LastName</p>
+    <p><strong>Phone:</strong> @Model.Phone</p>
+    <p><strong>Address:</strong> @Model.Address</p>
+    <p><strong>Email:</strong> @Model.Email</p>
+</div>
+
+<div>
+    <h4>Actions</h4>
+    <a asp-action="UpdateAccount" asp-route-accountId="@Model.Id">Update Account</a>
+    <form asp-action="DeleteAccount" asp-route-accountId="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
+        <button type="submit">Delete Account</button>
+    </form>
+</div>
