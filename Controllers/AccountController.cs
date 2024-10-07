@@ -129,14 +129,10 @@ namespace RestaurantMVC.Controllers
 
         public async Task<IActionResult> MyAccount()
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            var userClaims = HttpContext.User;
+            var accountId = userClaims.Claims.First(c => c.Type == "nameid").Value;
 
-            if (userIdClaim == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            var response = await _client.GetAsync($"{baseUri}getaccount/{userIdClaim.Value}");
+            var response = await _client.GetAsync($"{baseUri}getaccount/{accountId}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -148,9 +144,18 @@ namespace RestaurantMVC.Controllers
             return View("Error");
         }
 
-        public async Task<IActionResult> UpdateAccount(int accountId)
+        public async Task<IActionResult> UpdateAccount()
         {
-            var response = await _client.GetAsync($"{baseUri}getaccount/{accountId}");
+            var userClaims = HttpContext.User;
+
+            var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _client.GetAsync($"{baseUri}getaccount/{userIdClaim.Value}");
+
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -158,11 +163,11 @@ namespace RestaurantMVC.Controllers
 
                 var updateAccountViewModel = new UpdateAccountViewModel
                 {
-                    Id = accountId,
+                    Id = account.Id,
                     Phone = account.Phone,
                     Address = account.Address,
                     Email = account.Email,
-                    UserName = account.UserName,
+                    UserName = account.UserName
                 };
 
                 return View(updateAccountViewModel);
@@ -191,10 +196,19 @@ namespace RestaurantMVC.Controllers
             return View(updateAccountViewModel);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> DeleteAccount(int accountId)
+        public async Task<IActionResult> DeleteAccount()
         {
-            var response = await _client.DeleteAsync($"{baseUri}deleteaccount/{accountId}");
+            var userClaims = HttpContext.User;
+
+            var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _client.DeleteAsync($"{baseUri}deleteaccount/{userIdClaim.Value}");
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", new { message = "Account deleted successfully!" });
@@ -202,5 +216,6 @@ namespace RestaurantMVC.Controllers
 
             return RedirectToAction("Index", new { message = "Error deleting account." });
         }
+
     }
 }

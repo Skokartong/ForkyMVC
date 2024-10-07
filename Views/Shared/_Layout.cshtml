@@ -25,10 +25,13 @@
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Home</a>
+                                <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/About">About</a>
+                                <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
                             </li>
                         }
 
@@ -47,7 +50,7 @@
                                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="ViewRestaurants">Restaurants</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Admin" asp-action="ViewMenu">Menus</a>
+                                <a class="nav-link" asp-controller="Admin" asp-action="ViewMenus">Menus</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Admin" asp-action="ViewTables">Tables</a>
@@ -59,7 +62,10 @@
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="ViewBookings">My Bookings</a>
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="ViewRestaurants">Restaurants</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="User" asp-action="ViewBookings">Bookings</a>
                             </li>
                         }
 
@@ -71,15 +77,6 @@
                             <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
                                 <button type="submit" class="nav-link btn btn-link" style="border: none; background: none;">Log out</button>
                             </form>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
-                            </li>
                         }
                     </ul>
                 </div>

@@ -38,6 +38,7 @@ namespace RestaurantMVC.Controllers
             return View();
         }
 
+        // VIEWING ACTIONS
         public async Task<IActionResult> ViewAccounts()
         {
             var response = await _client.GetAsync($"{baseUri}viewaccounts");
@@ -47,19 +48,6 @@ namespace RestaurantMVC.Controllers
                 var customers = JsonConvert.DeserializeObject<List<AccountViewModel>>(json);
                 return View(customers);
             }
-            return View("Error");
-        }
-
-        public async Task<IActionResult> ViewAccount(int accountId)
-        {
-            var response = await _client.GetAsync($"{baseUri}viewaccount/{accountId}");
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var customer = JsonConvert.DeserializeObject<AccountViewModel>(json);
-                return View(customer);
-            }
-
             return View("Error");
         }
 
@@ -77,6 +65,49 @@ namespace RestaurantMVC.Controllers
             return View("Error");
         }
 
+        public async Task<IActionResult> ViewMenus()
+        {
+            var response = await _client.GetAsync($"{baseUri}viewmenus");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var menus = JsonConvert.DeserializeObject<List<MenuViewModel>>(json);
+
+                ViewBag.NewMenu = new MenuViewModel();
+                return View("ViewMenus", menus);
+            }
+
+            return View("Error");
+        }
+
+        public async Task<IActionResult> ViewBookings()
+        {
+            var response = await _client.GetAsync($"{baseUri}viewbookings");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var bookings = JsonConvert.DeserializeObject<List<ViewBookingViewModel>>(json);
+                return View(bookings);
+            }
+            return View("Error");
+        }
+
+        public async Task<IActionResult> ViewTables()
+        {
+            var response = await _client.GetAsync($"{baseUri}viewtables");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var tables = JsonConvert.DeserializeObject<List<TableViewModel>>(json);
+
+                ViewBag.NewTable = new TableViewModel();
+                return View("ViewTables", tables);
+            }
+
+            return View("Error");
+        }
+
+        // ADD actions
         [HttpPost]
         public async Task<IActionResult> AddRestaurant(RestaurantViewModel restaurantViewModel)
         {
@@ -88,9 +119,41 @@ namespace RestaurantMVC.Controllers
             {
                 return RedirectToAction("ViewRestaurants");
             }
+
             return View("Error");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddTable(NewTableViewModel tableViewModel)
+        {
+            var json = JsonConvert.SerializeObject(tableViewModel);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync($"{baseUri}addtable", content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ViewTables");
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMenuItem(NewDishViewModel dishViewModel)
+        {
+            var json = JsonConvert.SerializeObject(dishViewModel);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync($"{baseUri}addmenuitem", content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ViewMenus");
+            }
+
+            return View("Error");
+        }
+
+        // UPDATE ACTIONS
         public async Task<IActionResult> UpdateRestaurant(int restaurantId)
         {
             var response = await _client.GetAsync($"{baseUri}viewrestaurant/{restaurantId}");
@@ -123,51 +186,16 @@ namespace RestaurantMVC.Controllers
             return View("Error");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteRestaurant(int restaurantId)
+        public async Task<IActionResult> UpdateMenuItem(int menuId)
         {
-            var response = await _client.DeleteAsync($"{baseUri}deleterestaurant/{restaurantId}");
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View("Error");
-        }
-
-        // Menu actions
-        public async Task<IActionResult> ViewMenu(int restaurantId)
-        {
-            var response = await _client.GetAsync($"{baseUri}viewmenu/{restaurantId}");
+            var response = await _client.GetAsync($"{baseUri}viewmenuitem/{menuId}");
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var menuItems = JsonConvert.DeserializeObject<List<MenuViewModel>>(json);
-                ViewBag.RestaurantId = restaurantId;
-                return View(menuItems);
+                var menuItem = JsonConvert.DeserializeObject<MenuViewModel>(json);
+                return View(menuItem);
             }
             return View("Error");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddMenuItem(MenuViewModel menuViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(menuViewModel);
-            }
-
-            var json = JsonConvert.SerializeObject(menuViewModel);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync($"{baseUri}addmenuitem", content);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("ViewMenu", new { restaurantId = menuViewModel.FK_RestaurantId });
-            }
-
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            ModelState.AddModelError("", $"Error adding menu item: {errorMessage}");
-            return View(menuViewModel);
         }
 
         [HttpPost]
@@ -182,7 +210,6 @@ namespace RestaurantMVC.Controllers
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PutAsync($"{baseUri}updatemenuitem/{menuId}", content);
-
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("ViewMenu", new { restaurantId = menuViewModel.FK_RestaurantId });
@@ -193,75 +220,12 @@ namespace RestaurantMVC.Controllers
             return View(menuViewModel);
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteDish(int menuId)
-        {
-            var response = await _client.DeleteAsync($"{baseUri}deletedish/{menuId}");
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("ViewMenu");
-            }
-
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            ModelState.AddModelError("", $"Error deleting menu item: {errorMessage}");
-            return View("Error");
-        }
-
-        // Booking actions
-        public async Task<IActionResult> ViewBookings()
-        {
-            var response = await _client.GetAsync($"{baseUri}viewbookings");
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var bookings = JsonConvert.DeserializeObject<List<ViewBookingViewModel>>(json);
-                return View(bookings);
-            }
-            return View("Error");
-        }
-
-        public async Task<IActionResult> ViewTables(int restaurantId)
-        {
-            var response = await _client.GetAsync($"{baseUri}viewtables/{restaurantId}");
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var tables = JsonConvert.DeserializeObject<List<TableViewModel>>(json);
-                ViewBag.RestaurantId = restaurantId;
-                return View(tables);
-            }
-            return View("Error");
-        }
-
-        public IActionResult AddTable(int restaurantId)
-        {
-            ViewBag.RestaurantId = restaurantId; 
-            return View(new TableViewModel()); 
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddTable(TableViewModel tableViewModel, int restaurantId)
-        {
-            tableViewModel.FK_RestaurantId = restaurantId; 
-
-            var json = JsonConvert.SerializeObject(tableViewModel);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync($"{baseUri}addtable", content);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("ViewTables", new { restaurantId = restaurantId }); 
-            }
-            return View("Error"); 
-        }
-
         [HttpPost]
         public async Task<IActionResult> UpdateTable(TableViewModel tableViewModel)
         {
-            if (!ModelState.IsValid) 
+            if (!ModelState.IsValid)
             {
-                return View(tableViewModel); 
+                return View(tableViewModel);
             }
 
             var json = JsonConvert.SerializeObject(tableViewModel);
@@ -273,7 +237,19 @@ namespace RestaurantMVC.Controllers
                 return RedirectToAction("ViewTables", new { restaurantId = tableViewModel.FK_RestaurantId }); // Vid framgång, omdirigera
             }
 
-            return View("Error"); 
+            return View("Error");
+        }
+
+        // DELETE ACTIONS
+        [HttpPost]
+        public async Task<IActionResult> DeleteRestaurant(int restaurantId)
+        {
+            var response = await _client.DeleteAsync($"{baseUri}deleterestaurant/{restaurantId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Error");
         }
 
         [HttpPost]
@@ -291,6 +267,20 @@ namespace RestaurantMVC.Controllers
                 }
                 return View("Error");
             }
+            return View("Error");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteDish(int menuId)
+        {
+            var response = await _client.DeleteAsync($"{baseUri}deletedish/{menuId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ViewMenus", new { restaurantId = ViewBag.RestaurantId });
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", $"Error deleting menu item: {errorMessage}");
             return View("Error");
         }
     }

@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ForkyMVC.Models.Restaurant
 {
-    public class MenuViewModel
+    public class NewDishViewModel
     {
-        public int Id { get; set; }
         public string NameOfDish { get; set; }
         public string Drink { get; set; }
         public bool IsAvailable { get; set; }

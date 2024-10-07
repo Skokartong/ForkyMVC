@@ -1,0 +1,34 @@
+﻿@model ForkyMVC.Models.Restaurant.NewDishViewModel
+
+<h2>Add New Dish</h2>
+
+<form asp-action="AddMenuItem" method="post">
+    <div class="form-group">
+        <label for="NameOfDish">Dish Name</label>
+        <input asp-for="NameOfDish" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Drink">Drink</label>
+        <input asp-for="Drink" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Ingredients">Ingredients</label>
+        <input asp-for="Ingredients" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="Price">Price</label>
+        <input asp-for="Price" type="number" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="IsAvailable">Available</label>
+        <input asp-for="IsAvailable" type="checkbox" />
+    </div>
+    <div class="form-group">
+        <label for="FK_RestaurantId">RestaurantId</label>
+        <input asp-for="FK_RestaurantId" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Add Dish</button>
+</form>
+
+<button class="btn btn-secondary" onclick="window.history.back();">Go back</button>
+

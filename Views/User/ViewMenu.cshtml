@@ -1,0 +1,30 @@
+﻿@model List<ForkyMVC.Models.Restaurant.MenuViewModel>
+
+<div class="container mt-5">
+    <h2>Menu</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Dish</th>
+                <th>Drink</th>
+                <th>Ingredients</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var menu in Model)
+            {
+                <tr>
+                    <td>@menu.NameOfDish</td>
+                    <td>@menu.Drink</td>
+                    <td>@menu.Ingredients</td>
+                    <td>@menu.Price.ToString() $</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<button class="btn btn-secondary" onclick="window.history.back();">Go back</button>
+

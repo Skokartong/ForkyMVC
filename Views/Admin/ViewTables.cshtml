@@ -1,16 +1,16 @@
 ﻿@model List<ForkyMVC.Models.Restaurant.TableViewModel>
 
 @{
-    ViewBag.Title = "Tables for Restaurant";
-    var restaurantId = ViewBag.RestaurantId;
+    ViewBag.Title = "View Tables";
 }
 
 <div class="container mt-5">
-    <h1>Tables for Restaurant @restaurantId</h1>
-    <a href="@Url.Action("AddTable", "Admin", new { restaurantId })" class="btn btn-primary">Add New Table</a>
+    <h1>Tables</h1>
+    <a href="@Url.Action("AddTable", "Admin", new { restaurantId = ViewBag.RestaurantId })" class="btn btn-primary">Add New Table</a>
     <table class="table mt-3">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Table Number</th>
                 <th>Seats</th>
                 <th>Actions</th>
@@ -20,6 +20,7 @@
             @foreach (var table in Model)
             {
                 <tr>
+                    <td>@table.Id</td>
                     <td>@table.TableNumber</td>
                     <td>@table.AmountOfSeats</td>
                     <td>

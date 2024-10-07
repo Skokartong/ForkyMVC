@@ -35,7 +35,7 @@ namespace RestaurantMVC.Controllers
             return View();
         }
 
-        // Booking actions
+        // BOOKING AND RESTAURANTS ACTÌONS
         public async Task<IActionResult> ViewRestaurants()
         {
             var response = await _client.GetAsync($"{baseUri}viewrestaurants");
@@ -47,34 +47,39 @@ namespace RestaurantMVC.Controllers
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var restaurants = JsonConvert.DeserializeObject<List<RestaurantViewModel>>(jsonResponse);
 
-            var restaurantsWithMenus = new List<RestaurantViewModel>();
-
-            foreach (var restaurant in restaurants)
-            {
-                var menuResponse = await _client.GetAsync($"{baseUri}viewmenu/{restaurant.Id}");
-                List<MenuViewModel> menus = new List<MenuViewModel>();
-
-                if (menuResponse.IsSuccessStatusCode)
-                {
-                    var menuJsonResponse = await menuResponse.Content.ReadAsStringAsync();
-                    menus = JsonConvert.DeserializeObject<List<MenuViewModel>>(menuJsonResponse);
-                }
-
-                restaurant.Menus = menus;
-                restaurantsWithMenus.Add(restaurant);
-            }
-
-            return View(restaurantsWithMenus);
+            return View(restaurants);
         }
 
-        public async Task<IActionResult> ViewBookings(int customerId)
+        public async Task<IActionResult> ViewMenu(int restaurantId)
         {
-            var response = await _client.GetAsync($"{baseUri}viewbookings/{customerId}");
+            var response = await _client.GetAsync($"{baseUri}viewmenu/{restaurantId}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return View("Error");
+            }
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var menu = JsonConvert.DeserializeObject<List<MenuViewModel>>(jsonResponse);
+
+            return View(menu);
+        }
+
+        public async Task<IActionResult> ViewBookings()
+        {
+            var userClaims = HttpContext.User;
+
+            var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var response = await _client.GetAsync($"{baseUri}viewbookings/{userIdClaim.Value}");
 
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                var bookings = JsonConvert.DeserializeObject<List<ForkyMVC.Models.Booking.ViewBookingViewModel>>(jsonResponse);
+                var bookings = JsonConvert.DeserializeObject<List<ViewBookingViewModel>>(jsonResponse);
                 return View(bookings);
             }
 
@@ -85,19 +90,25 @@ namespace RestaurantMVC.Controllers
 
         public async Task<IActionResult> BookTable(int restaurantId)
         {
-            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userClaims = HttpContext.User;
 
-            int accountId = Convert.ToInt32(accountIdClaim);
-
-            Console.WriteLine($"ACCOUNTID: {accountId}");
-
-            var viewModel = new AddBookingViewModel
+            var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
+            
+            if (userIdClaim == null)
             {
-                FK_RestaurantId = restaurantId,
-                FK_AccountId = accountId
-            };
+                return Unauthorized();
+            }
 
-            return View(viewModel);
+            if (int.TryParse(userIdClaim.Value, out int accountId))
+            {
+                var viewModel = new AddBookingViewModel
+                {
+                    FK_RestaurantId = restaurantId,
+                    FK_AccountId = accountId
+                };
+            }
+
+            return View("Error");
         }
 
 
@@ -109,8 +120,6 @@ namespace RestaurantMVC.Controllers
                 return View(addBookingViewModel);
             }
 
-            int accountId = addBookingViewModel.FK_AccountId;
-
             var availabilityCheck = new AvailabilityCheckViewModel
             {
                 FK_RestaurantId = addBookingViewModel.FK_RestaurantId,
@@ -118,12 +127,6 @@ namespace RestaurantMVC.Controllers
                 EndTime = addBookingViewModel.BookingEnd,
                 NumberOfGuests = addBookingViewModel.NumberOfGuests,
             };
-
-            Console.WriteLine($"FK_RestaurantId {availabilityCheck.FK_RestaurantId}");
-            Console.WriteLine($"StartTime  {availabilityCheck.StartTime }");
-            Console.WriteLine($"EndTime  {availabilityCheck.EndTime }");
-            Console.WriteLine($"NumberOfGuests  {availabilityCheck.NumberOfGuests }");
-
 
             var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
 

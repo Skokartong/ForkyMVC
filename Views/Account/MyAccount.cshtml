@@ -1,21 +1,42 @@
 ﻿@model ForkyMVC.Models.Account.AccountViewModel
 
-<h2>My Account</h2>
+<div class="container mt-5 text-center">
+    <h2>My Account</h2>
 
-<div>
-    <h4>Account Information</h4>
-    <p><strong>Username:</strong> @Model.UserName</p>
-    <p><strong>First Name:</strong> @Model.FirstName</p>
-    <p><strong>Last Name:</strong> @Model.LastName</p>
-    <p><strong>Phone:</strong> @Model.Phone</p>
-    <p><strong>Address:</strong> @Model.Address</p>
-    <p><strong>Email:</strong> @Model.Email</p>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered mx-auto" style="max-width: 800px;">
+            <thead class="table-light">
+                <tr>
+                    <th>Username</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.UserName</td>
+                    <td>@Model.FirstName</td>
+                    <td>@Model.LastName</td>
+                    <td>@Model.Email</td>
+                    <td>@Model.Address</td>
+                    <td>@Model.Phone</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        <h4>Actions</h4>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary me-2" asp-action="UpdateAccount" asp-route-accountId="@Model.Id">Update Account</a>
+            <form asp-action="DeleteAccount" asp-route-accountId="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
+        </div>
+    </div>
 </div>
 
-<div>
-    <h4>Actions</h4>
-    <a asp-action="UpdateAccount" asp-route-accountId="accountId">Update Account</a>
-    <form asp-action="DeleteAccount" asp-route-accountId="accountId" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
-        <button type="submit">Delete Account</button>
-    </form>
-</div>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">

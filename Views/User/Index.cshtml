@@ -5,28 +5,32 @@
 <div class="container mt-5">
     <h1 class="text-center">User Dashboard</h1>
     <div class="row mt-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Account Management</h5>
-                    <a asp-action="UpdateAccount" class="btn btn-primary">Update Account</a>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">Account Management</div>
+                <div class="card-body">
+                    <h5 class="card-title">Manage your account settings</h5>
+                    <a asp-action="MyAccount" asp-controller="Account" class="btn btn-light mb-2">My Account</a>
+                    <a asp-action="UpdateAccount" class="btn btn-light">Update Account</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Restaurant Viewing</h5>
-                    <a asp-action="ViewRestaurants" class="btn btn-primary">View Restaurants</a>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Restaurant Viewing</div>
+                <div class="card-body">
+                    <h5 class="card-title">Browse available restaurants</h5>
+                    <a asp-action="ViewRestaurants" class="btn btn-light">View Restaurants</a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Booking Management</h5>
-                    <a asp-action="ViewBookings" class="btn btn-primary">View Bookings</a>
-                    <a asp-action="BookTable" class="btn btn-secondary">Book a Table</a>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Booking Management</div>
+                <div class="card-body">
+                    <h5 class="card-title">Manage your bookings</h5>
+                    <a asp-action="ViewBookings" class="btn btn-light mb-2">View Bookings</a>
+                    <a asp-action="BookTable" class="btn btn-light">Book a Table</a>
                 </div>
             </div>
         </div>
