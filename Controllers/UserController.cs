@@ -106,6 +106,8 @@ namespace RestaurantMVC.Controllers
                     FK_RestaurantId = restaurantId,
                     FK_AccountId = accountId
                 };
+
+                return View(viewModel);
             }
 
             return View("Error");

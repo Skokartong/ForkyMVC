@@ -82,7 +82,7 @@ namespace RestaurantMVC.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, new AuthenticationProperties
             {
-                IsPersistent = true,
+                IsPersistent = false,
                 ExpiresUtc = jwtToken.ValidTo.AddHours(1),
             });
 
@@ -91,17 +91,10 @@ namespace RestaurantMVC.Controllers
                 HttpOnly = true,
                 Secure = true,
                 SameSite = SameSiteMode.Strict,
-                Expires = jwtToken.ValidTo,
                 Path = "/"
             });
 
-            foreach (var claim in claims)
-            {
-                Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-            }
-
             var userRoleClaim = claims.FirstOrDefault(c => c.Type == "role");
-            await Console.Out.WriteLineAsync($"user roleclaim: {userRoleClaim}");
 
             if (userRoleClaim != null)
             {
