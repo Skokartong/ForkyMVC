@@ -35,31 +35,6 @@ namespace RestaurantMVC.Controllers
             return View();
         }
 
-        // Account actions
-        [HttpPost]
-        public async Task<IActionResult> UpdateAccount(UpdateAccountViewModel updateAccountViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(updateAccountViewModel);
-            }
-
-            var json = JsonConvert.SerializeObject(updateAccountViewModel);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PutAsync($"{baseUri}updateaccount/{updateAccountViewModel.Id}", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["SuccessMessage"] = "Account updated successfully!";
-                return RedirectToAction("Index");
-            }
-
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            ViewBag.ErrorMessage = "Could not update account: " + errorMessage;
-            return View(updateAccountViewModel);
-        }
-
         // Booking actions
         public async Task<IActionResult> ViewRestaurants()
         {
@@ -192,9 +167,9 @@ namespace RestaurantMVC.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> DeleteBooking(int reservationId)
+        public async Task<IActionResult> DeleteBooking(int bookingId)
         {
-            var response = await _client.DeleteAsync($"{baseUri}deletebooking/{reservationId}");
+            var response = await _client.DeleteAsync($"{baseUri}deletebooking/{bookingId}");
             if (response.IsSuccessStatusCode)
             {
                 TempData["SuccessMessage"] = "Booking deleted successfully!";

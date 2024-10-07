@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ForkyMVC</title>
+    <title>@ViewData["Title"] - Forky</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ForkyMVC.styles.css" asp-append-version="true" />
@@ -12,19 +12,26 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ForkyMVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Forky</a>
+                }
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarSupportedContent">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                        </li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/About">About</a>
+                            </li>
+                        }
+
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
@@ -39,6 +46,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="ViewRestaurants">Restaurants</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="ViewMenu">Menus</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="ViewTables">Tables</a>
+                            </li>
                         }
                         else if (User.IsInRole("User"))
                         {
@@ -47,17 +60,14 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="ViewBookings">My Bookings</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="User" asp-action="UpdateAccount">My Account</a>
-                                </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="ViewRestaurants">View Restaurants</a>
                             </li>
                         }
 
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="MyAccount">My Account</a>
+                            </li>
                             <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
                                 <button type="submit" class="nav-link btn btn-link" style="border: none; background: none;">Log out</button>
                             </form>
@@ -68,7 +78,7 @@
                                 <a class="nav-link" href="@Url.Action("Login", "Account")">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Register", "Account")">Registrate</a>
+                                <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
                             </li>
                         }
                     </ul>

@@ -26,7 +26,7 @@
                     <td>@booking.BookingEnd.ToString("g")</td>
                     <td>
                         <a asp-action="UpdateBooking" asp-route-bookingId="@booking.Id" class="btn btn-warning">Update</a>
-                        <form asp-action="DeleteBooking" asp-route-reservationId="@booking.Id" method="post" style="display:inline;">
+                        <form asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </td>

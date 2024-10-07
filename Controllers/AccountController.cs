@@ -148,7 +148,6 @@ namespace RestaurantMVC.Controllers
             return View("Error");
         }
 
-
         public async Task<IActionResult> UpdateAccount(int accountId)
         {
             var response = await _client.GetAsync($"{baseUri}getaccount/{accountId}");
@@ -166,7 +165,7 @@ namespace RestaurantMVC.Controllers
                     UserName = account.UserName,
                 };
 
-                return View(updateAccountViewModel); 
+                return View(updateAccountViewModel);
             }
 
             return View("Error");
@@ -177,7 +176,7 @@ namespace RestaurantMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(updateAccountViewModel); 
+                return View(updateAccountViewModel);
             }
 
             var json = JsonConvert.SerializeObject(updateAccountViewModel);
@@ -189,7 +188,7 @@ namespace RestaurantMVC.Controllers
                 return RedirectToAction("MyAccount", new { message = "Account updated successfully!" });
             }
 
-            return View(updateAccountViewModel); 
+            return View(updateAccountViewModel);
         }
 
         [HttpPost]

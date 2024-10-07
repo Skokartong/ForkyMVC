@@ -4,7 +4,6 @@
 
 <div>
     <h4>Account Information</h4>
-    <p><strong>ID:</strong> @Model.Id</p>
     <p><strong>Username:</strong> @Model.UserName</p>
     <p><strong>First Name:</strong> @Model.FirstName</p>
     <p><strong>Last Name:</strong> @Model.LastName</p>
@@ -15,8 +14,8 @@
 
 <div>
     <h4>Actions</h4>
-    <a asp-action="UpdateAccount" asp-route-accountId="@Model.Id">Update Account</a>
-    <form asp-action="DeleteAccount" asp-route-accountId="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
+    <a asp-action="UpdateAccount" asp-route-accountId="accountId">Update Account</a>
+    <form asp-action="DeleteAccount" asp-route-accountId="accountId" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
         <button type="submit">Delete Account</button>
     </form>
 </div>
