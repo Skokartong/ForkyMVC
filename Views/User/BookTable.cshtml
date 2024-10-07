@@ -7,13 +7,8 @@
 <div class="container mt-5">
     <h1>Book a Table</h1>
     <form asp-action="BookTable" method="post">
-        <div class="form-group">
-            <label asp-for="FK_RestaurantId" class="control-label"></label>
-            <select asp-for="FK_RestaurantId" class="form-control" asp-items="@(new SelectList(ViewBag.Restaurants, "Id", "RestaurantName"))">
-                <option value="">Select a Restaurant</option>
-            </select>
-            <span asp-validation-for="FK_RestaurantId" class="text-danger"></span>
-        </div>
+                <input type="hidden" asp-for="FK_RestaurantId" />
+                <input type="hidden" asp-for="FK_AccountId" />
         <div class="form-group">
             <label asp-for="NumberOfGuests" class="control-label"></label>
             <input asp-for="NumberOfGuests" class="form-control" type="number" min="1" />

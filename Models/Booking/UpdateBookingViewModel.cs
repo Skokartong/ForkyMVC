@@ -1,4 +1,6 @@
-﻿namespace ForkyMVC.Models.Booking
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ForkyMVC.Models.Booking
 {
     public class UpdateBookingViewModel
     {
@@ -6,6 +8,7 @@
         public DateTime BookingStart { get; set; }
         public DateTime BookingEnd { get; set; }
         public string? Message { get; set; }
+        [ForeignKey("Restaurant")]
         public int FK_RestaurantId { get; set; }
     }
 }

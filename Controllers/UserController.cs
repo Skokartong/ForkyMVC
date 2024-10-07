@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 
 namespace RestaurantMVC.Controllers
@@ -91,7 +92,6 @@ namespace RestaurantMVC.Controllers
             return View(restaurantsWithMenus);
         }
 
-
         public async Task<IActionResult> ViewBookings(int customerId)
         {
             var response = await _client.GetAsync($"{baseUri}viewbookings/{customerId}");
@@ -108,6 +108,24 @@ namespace RestaurantMVC.Controllers
             return View("Error");
         }
 
+        public async Task<IActionResult> BookTable(int restaurantId)
+        {
+            var accountIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            int accountId = Convert.ToInt32(accountIdClaim);
+
+            Console.WriteLine($"ACCOUNTID: {accountId}");
+
+            var viewModel = new AddBookingViewModel
+            {
+                FK_RestaurantId = restaurantId,
+                FK_AccountId = accountId
+            };
+
+            return View(viewModel);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> BookTable(AddBookingViewModel addBookingViewModel)
         {
@@ -116,15 +134,25 @@ namespace RestaurantMVC.Controllers
                 return View(addBookingViewModel);
             }
 
+            int accountId = addBookingViewModel.FK_AccountId;
+
             var availabilityCheck = new AvailabilityCheckViewModel
             {
                 FK_RestaurantId = addBookingViewModel.FK_RestaurantId,
                 StartTime = addBookingViewModel.BookingStart,
                 EndTime = addBookingViewModel.BookingEnd,
-                NumberOfGuests = addBookingViewModel.NumberOfGuests
+                NumberOfGuests = addBookingViewModel.NumberOfGuests,
             };
 
+            Console.WriteLine($"FK_RestaurantId {availabilityCheck.FK_RestaurantId}");
+            Console.WriteLine($"StartTime  {availabilityCheck.StartTime }");
+            Console.WriteLine($"EndTime  {availabilityCheck.EndTime }");
+            Console.WriteLine($"NumberOfGuests  {availabilityCheck.NumberOfGuests }");
+
+
             var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
+
+            Console.WriteLine(availabilityResponse.Content);
 
             if (availabilityResponse.IsSuccessStatusCode)
             {
@@ -146,7 +174,10 @@ namespace RestaurantMVC.Controllers
             var json = JsonConvert.SerializeObject(addBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+
             var response = await _client.PostAsync($"{baseUri}newbooking", content);
+
+            Console.WriteLine($"response: {response}");
 
             if (response.IsSuccessStatusCode)
             {

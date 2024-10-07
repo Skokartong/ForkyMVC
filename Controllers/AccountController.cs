@@ -57,7 +57,7 @@ namespace RestaurantMVC.Controllers
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 ModelState.AddModelError("", "Login failed: " + errorMessage);
-                throw new NotImplementedException();
+                return View(loginUser);
             }
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -69,7 +69,7 @@ namespace RestaurantMVC.Controllers
             if (token == null || string.IsNullOrEmpty(token.Token))
             {
                 ModelState.AddModelError("", "No valid token");
-                throw new NotImplementedException();
+                return View(loginUser);
             }
 
             var handler = new JwtSecurityTokenHandler();
@@ -130,21 +130,24 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> MyAccount()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
             if (userIdClaim == null)
             {
                 return RedirectToAction("Login");
             }
 
             var response = await _client.GetAsync($"{baseUri}getaccount/{userIdClaim.Value}");
+
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
                 var accountViewModel = JsonConvert.DeserializeObject<AccountViewModel>(jsonResponse);
-                return View(accountViewModel); 
+                return View(accountViewModel);
             }
 
             return View("Error");
         }
+
 
         public async Task<IActionResult> UpdateAccount(int accountId)
         {
@@ -156,7 +159,7 @@ namespace RestaurantMVC.Controllers
 
                 var updateAccountViewModel = new UpdateAccountViewModel
                 {
-                    Id = account.Id,
+                    Id = accountId,
                     Phone = account.Phone,
                     Address = account.Address,
                     Email = account.Email,
