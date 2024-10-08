@@ -11,7 +11,6 @@ namespace ForkyMVC.Models.Restaurant
         public bool IsAvailable { get; set; }
         public string? Ingredients { get; set; }
         public double Price { get; set; }
-        [ForeignKey("Restaurant")]
         public int FK_RestaurantId { get; set; }
     }
 }

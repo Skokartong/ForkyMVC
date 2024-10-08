@@ -13,6 +13,7 @@
                 <th>ID</th>
                 <th>Table Number</th>
                 <th>Seats</th>
+                <th>Restaurant Id</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                     <td>@table.Id</td>
                     <td>@table.TableNumber</td>
                     <td>@table.AmountOfSeats</td>
+                    <td>@table.FK_RestaurantId</td>
                     <td>
                         <a href="@Url.Action("UpdateTable", "Admin", new { tableId = table.Id })" class="btn btn-warning">Edit</a>
                         <form asp-action="DeleteTable" method="post" class="d-inline">

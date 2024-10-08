@@ -26,7 +26,7 @@
                     <td>@menu.NameOfDish</td>
                     <td>@menu.Drink</td>
                     <td>@menu.IsAvailable</td>
-                    <td>@menu.Price.ToString() + " $"</td>
+                    <td>@menu.Price.ToString() $</td>
                     <td>
                         <a href="@Url.Action("UpdateMenuItem", "Admin", new { menuId = menu.Id })" class="btn btn-warning">Edit</a>
                         <form asp-action="DeleteDish" method="post" class="d-inline">

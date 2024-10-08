@@ -13,6 +13,7 @@
                 <th>Number of Guests</th>
                 <th>Start Time</th>
                 <th>End Time</th>
+                <th>Message</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@
                     <td>@booking.NumberOfGuests</td>
                     <td>@booking.BookingStart.ToString("g")</td>
                     <td>@booking.BookingEnd.ToString("g")</td>
+                    <td>@booking.Message</td>
                     <td>
                         <a asp-action="UpdateBooking" asp-route-bookingId="@booking.Id" class="btn btn-warning">Update</a>
                         <form asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" method="post" style="display:inline;">
