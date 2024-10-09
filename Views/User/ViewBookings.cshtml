@@ -4,36 +4,54 @@
     ViewBag.Title = "My Bookings";
 }
 
-<div class="container mt-5">
-    <h1>My Bookings</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Restaurant</th>
-                <th>Number of Guests</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Message</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var booking in Model)
-            {
+<div class="container mx-auto p-5 mt-5">
+    <h1 class="text-center mb-4">My Bookings</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">No bookings yet</div>
+    }
+
+    <div class="overflow-x-auto">
+        <table class="table table-striped table-bordered">
+            <thead class="table-light">
                 <tr>
-                    <td>@booking.RestaurantName</td>
-                    <td>@booking.NumberOfGuests</td>
-                    <td>@booking.BookingStart.ToString("g")</td>
-                    <td>@booking.BookingEnd.ToString("g")</td>
-                    <td>@booking.Message</td>
-                    <td>
-                        <a asp-action="UpdateBooking" asp-route-bookingId="@booking.Id" class="btn btn-warning">Update</a>
-                        <form asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" method="post" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                    <th>Restaurant</th>
+                    <th>Number of Guests</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Message</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.RestaurantName</td>
+                        <td>@booking.NumberOfGuests</td>
+                        <td>@booking.BookingStart.ToString("g")</td>
+                        <td>@booking.BookingEnd.ToString("g")</td>
+                        <td>@booking.Message</td>
+                        <td>
+                            <a asp-action="UpdateBooking" asp-route-bookingId="@booking.Id" class="btn btn-warning btn-sm">Update</a>
+                            <form asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

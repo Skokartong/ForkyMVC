@@ -36,9 +36,11 @@ namespace RestaurantMVC.Controllers
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync($"{baseUri}register", content);
+
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Login", new { message = "Account created successfully!" });
+                TempData["SuccessMessage"] = "Account created successfully!";
+                return RedirectToAction("Login");
             }
 
             return View(registerViewModel);
@@ -61,10 +63,8 @@ namespace RestaurantMVC.Controllers
             }
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            await Console.Out.WriteLineAsync($"jsonRes: {jsonResponse}");
 
             var token = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
-            await Console.Out.WriteLineAsync($"token: {token}");
 
             if (token == null || string.IsNullOrEmpty(token.Token))
             {
@@ -183,7 +183,8 @@ namespace RestaurantMVC.Controllers
             var response = await _client.PutAsync($"{baseUri}updateaccount/{updateAccountViewModel.Id}", content);
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("MyAccount", new { message = "Account updated successfully!" });
+                TempData["SuccessMessage"] = "Account updated successfully!";
+                return RedirectToAction("MyAccount");
             }
 
             return View(updateAccountViewModel);
@@ -194,21 +195,18 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> DeleteAccount()
         {
             var userClaims = HttpContext.User;
+            var accountId = userClaims.Claims.First(c => c.Type == "nameid").Value;
 
-            var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
+            var response = await _client.DeleteAsync($"{baseUri}deleteaccount/{accountId}");
 
-            var response = await _client.DeleteAsync($"{baseUri}deleteaccount/{userIdClaim.Value}");
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", new { message = "Account deleted successfully!" });
+                TempData["SuccessMessage"] = "Account deleted successfully!";
+                return RedirectToAction("Index", "Home");
             }
 
+            TempData["ErrorMessage"] = "Error deleting account.";
             return RedirectToAction("Index", new { message = "Error deleting account." });
         }
-
     }
 }

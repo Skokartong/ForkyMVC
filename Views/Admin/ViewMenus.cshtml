@@ -6,7 +6,7 @@
 
 <div class="container mt-5">
     <h1>Menus</h1>
-    <a href="@Url.Action("AddMenuItem", "Admin", new { restaurantId = ViewBag.RestaurantId })" class="btn btn-primary">Add New Menu Item</a>
+    <a href="@Url.Action("AddMenuItem", "Admin")" class="btn btn-primary">Add New Dish</a>
     <table class="table mt-3">
         <thead>
             <tr>
@@ -15,6 +15,7 @@
                 <th>Drink</th>
                 <th>Is Available</th>
                 <th>Price</th>
+                <th>Restaurant Id</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,8 +28,9 @@
                     <td>@menu.Drink</td>
                     <td>@menu.IsAvailable</td>
                     <td>@menu.Price.ToString() $</td>
+                    <td>@menu.FK_RestaurantId</td>
                     <td>
-                        <a href="@Url.Action("UpdateMenuItem", "Admin", new { menuId = menu.Id })" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("UpdateMenuItem", "Admin", new { menuId = menu.Id, restaurantId = menu.FK_RestaurantId })" class="btn btn-warning">Edit</a>
                         <form asp-action="DeleteDish" method="post" class="d-inline">
                             <input type="hidden" name="menuId" value="@menu.Id" />
                             <button type="submit" class="btn btn-danger">Delete</button>

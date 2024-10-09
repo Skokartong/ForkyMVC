@@ -1,9 +1,17 @@
 ﻿@model ForkyMVC.Models.Restaurant.NewTableViewModel
 
-<h2>Add New Dish</h2>
-
 <div class="container mt-5">
     <h1>Add New Table</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
     <form asp-action="AddTable" method="post">
         <div class="form-group">
             <label asp-for="TableNumber"></label>

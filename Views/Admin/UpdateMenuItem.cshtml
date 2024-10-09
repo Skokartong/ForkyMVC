@@ -2,7 +2,18 @@
 
 <h2>Edit Dish</h2>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <form asp-action="UpdateMenuItem" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="FK_RestaurantId" />
     <div class="form-group">
         <label for="NameOfDish">Dish Name</label>
         <input asp-for="NameOfDish" class="form-control" />
@@ -23,8 +34,6 @@
         <label for="IsAvailable">Available</label>
         <input asp-for="IsAvailable" type="checkbox" />
     </div>
-
-    <input type="hidden" asp-for="FK_RestaurantId" />
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 

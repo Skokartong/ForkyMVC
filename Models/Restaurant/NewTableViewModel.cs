@@ -4,7 +4,6 @@ namespace ForkyMVC.Models.Restaurant
 {
     public class NewTableViewModel
     {
-        public int Id { get; set; }
         public int TableNumber { get; set; }
         public int AmountOfSeats { get; set; }
 

@@ -7,6 +7,13 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">@ViewData["Title"]</h2>
 
+    @if (!string.IsNullOrEmpty(TempData["Message"] as string))
+    {
+        <div class="alert alert-success text-center">
+            @TempData["Message"]
+        </div>
+    }
+
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <div class="card shadow">
@@ -71,4 +78,3 @@
         </div>
     </div>
 </div>
-

@@ -9,6 +9,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
@@ -20,19 +21,16 @@
         @foreach (var account in Model)
         {
             <tr>
+                <td>@account.Id</td>
                 <td>@account.FirstName</td>
                 <td>@account.LastName</td>
                 <td>@account.Email</td>
                 <td>@account.Phone</td>
                 <td>@account.Address</td>
                 <td>
-                    <a class="btn btn-primary btn-sm" href="@Url.Action("UpdateAccount", "Account", new { accountId = account.Id })">
-                        Update
-                    </a>
-
-                    <form asp-action="DeleteAccount" asp-controller="Account" method="post" style="display:inline-block;">
+                    <form asp-action="DeleteAccount" asp-controller="Account" method="post" class="d-inline">
                         <input type="hidden" name="accountId" value="@account.Id" />
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>

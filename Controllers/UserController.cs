@@ -35,7 +35,7 @@ namespace RestaurantMVC.Controllers
             return View();
         }
 
-        // BOOKING AND RESTAURANTS ACTÌONS
+        // BOOKING AND RESTAURANTS ACTIONS
         public async Task<IActionResult> ViewRestaurants()
         {
             var response = await _client.GetAsync($"{baseUri}viewrestaurants");
@@ -67,8 +67,8 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> ViewBookings()
         {
             var userClaims = HttpContext.User;
-
             var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
+
             if (userIdClaim == null)
             {
                 return Unauthorized();
@@ -91,9 +91,8 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> BookTable(int restaurantId)
         {
             var userClaims = HttpContext.User;
-
             var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
-            
+
             if (userIdClaim == null)
             {
                 return Unauthorized();
@@ -112,7 +111,6 @@ namespace RestaurantMVC.Controllers
 
             return View("Error");
         }
-
 
         [HttpPost]
         public async Task<IActionResult> BookTable(AddBookingViewModel addBookingViewModel)
@@ -143,7 +141,9 @@ namespace RestaurantMVC.Controllers
                     ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
                     return View(addBookingViewModel);
                 }
+
             }
+
             else
             {
                 var error = await availabilityResponse.Content.ReadAsStringAsync();
@@ -154,20 +154,86 @@ namespace RestaurantMVC.Controllers
             var json = JsonConvert.SerializeObject(addBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-
             var response = await _client.PostAsync($"{baseUri}newbooking", content);
 
             Console.WriteLine($"response: {response}");
 
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.SuccessMessage = "Table booked successfully!";
+                TempData["SuccessMessage"] = "Table booked successfully!";
                 return RedirectToAction("ViewBookings");
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            ViewBag.ErrorMessage = "Could not book table: " + errorMessage;
+            TempData["ErrorMessage"] = "Could not book table: " + errorMessage;
             return View(addBookingViewModel);
+        }
+
+        public async Task<IActionResult> UpdateBooking(int bookingId)
+        {
+            var response = await _client.GetAsync($"{baseUri}viewbooking/{bookingId}");
+            if (!response.IsSuccessStatusCode)
+            {
+                return View("Error");
+            }
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var bookingToUpdate = JsonConvert.DeserializeObject<UpdateBookingViewModel>(jsonResponse);
+            return View(bookingToUpdate);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateBooking(int bookingId, UpdateBookingViewModel updateBookingViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updateBookingViewModel);
+            }
+
+            var availabilityCheck = new AvailabilityCheckViewModel
+            {
+                FK_RestaurantId = updateBookingViewModel.FK_RestaurantId,
+                StartTime = updateBookingViewModel.BookingStart,
+                EndTime = updateBookingViewModel.BookingEnd,
+                NumberOfGuests = updateBookingViewModel.NumberOfGuests
+            };
+
+            var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
+
+            if (availabilityResponse.IsSuccessStatusCode)
+            {
+                var availableTables = await availabilityResponse.Content.ReadAsAsync<List<TableViewModel>>();
+
+                if (!availableTables.Any())
+                {
+                    ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
+                    return View(updateBookingViewModel);
+                }
+
+                updateBookingViewModel.FK_TableId = availableTables.First().Id;
+
+            }
+
+            else
+            {
+                var error = await availabilityResponse.Content.ReadAsStringAsync();
+                ModelState.AddModelError(string.Empty, "Could not check availability: " + error);
+                return View(updateBookingViewModel);
+            }
+
+            var json = JsonConvert.SerializeObject(updateBookingViewModel);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"{baseUri}updatebooking/{bookingId}", content);
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Booking updated successfully!";
+                return RedirectToAction("ViewBookings");
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            TempData["ErrorMessage"] = "Could not update booking: " + errorMessage;
+            return View("Error");
         }
 
 
@@ -182,29 +248,9 @@ namespace RestaurantMVC.Controllers
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            ViewBag.ErrorMessage = "Could not delete booking: " + errorMessage;
-            return View("Error");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> UpdateBooking(int bookingId, UpdateBookingViewModel updateBookingViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(updateBookingViewModel);
-            }
-
-            var json = JsonConvert.SerializeObject(updateBookingViewModel);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PutAsync($"{baseUri}updatebooking/{bookingId}", content);
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["SuccessMessage"] = "Booking updated successfully!";
-                return RedirectToAction("ViewBookings");
-            }
-
-            return View("Error");
+            TempData["ErrorMessage"] = "Could not delete booking: " + errorMessage;
+            return RedirectToAction("ViewBookings");
         }
     }
 }
+
