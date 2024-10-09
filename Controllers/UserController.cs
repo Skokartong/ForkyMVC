@@ -35,7 +35,7 @@ namespace RestaurantMVC.Controllers
             return View();
         }
 
-        // BOOKING AND RESTAURANTS ACTÌONS
+        // BOOKING AND RESTAURANTS ACTIONS
         public async Task<IActionResult> ViewRestaurants()
         {
             var response = await _client.GetAsync($"{baseUri}viewrestaurants");
@@ -67,8 +67,8 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> ViewBookings()
         {
             var userClaims = HttpContext.User;
-
             var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
+
             if (userIdClaim == null)
             {
                 return Unauthorized();
@@ -91,9 +91,8 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> BookTable(int restaurantId)
         {
             var userClaims = HttpContext.User;
-
             var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
-            
+
             if (userIdClaim == null)
             {
                 return Unauthorized();
@@ -112,7 +111,6 @@ namespace RestaurantMVC.Controllers
 
             return View("Error");
         }
-
 
         [HttpPost]
         public async Task<IActionResult> BookTable(AddBookingViewModel addBookingViewModel)
@@ -154,22 +152,20 @@ namespace RestaurantMVC.Controllers
             var json = JsonConvert.SerializeObject(addBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-
             var response = await _client.PostAsync($"{baseUri}newbooking", content);
 
             Console.WriteLine($"response: {response}");
 
             if (response.IsSuccessStatusCode)
             {
-                ViewBag.SuccessMessage = "Table booked successfully!";
+                TempData["SuccessMessage"] = "Table booked successfully!";
                 return RedirectToAction("ViewBookings");
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            ViewBag.ErrorMessage = "Could not book table: " + errorMessage;
+            TempData["ErrorMessage"] = "Could not book table: " + errorMessage;
             return View(addBookingViewModel);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> DeleteBooking(int bookingId)
@@ -182,8 +178,8 @@ namespace RestaurantMVC.Controllers
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
-            ViewBag.ErrorMessage = "Could not delete booking: " + errorMessage;
-            return View("Error");
+            TempData["ErrorMessage"] = "Could not delete booking: " + errorMessage;
+            return RedirectToAction("ViewBookings");
         }
 
         [HttpPost]
@@ -204,7 +200,10 @@ namespace RestaurantMVC.Controllers
                 return RedirectToAction("ViewBookings");
             }
 
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            TempData["ErrorMessage"] = "Could not update booking: " + errorMessage;
             return View("Error");
         }
     }
 }
+

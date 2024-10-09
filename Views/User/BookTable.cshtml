@@ -6,10 +6,21 @@
 
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Book a Table</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
     <form asp-action="BookTable" method="post" class="bg-light p-4 rounded shadow">
         <input type="hidden" asp-for="FK_RestaurantId" />
         <input type="hidden" asp-for="FK_AccountId" />
-        
+
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-group">

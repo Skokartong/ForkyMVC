@@ -6,6 +6,16 @@
 
 <div class="container mt-5">
     <h1>Update Restaurant</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
     <form asp-action="UpdateRestaurant" method="post">
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
