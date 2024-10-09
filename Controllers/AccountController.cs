@@ -195,14 +195,10 @@ namespace RestaurantMVC.Controllers
         public async Task<IActionResult> DeleteAccount()
         {
             var userClaims = HttpContext.User;
+            var accountId = userClaims.Claims.First(c => c.Type == "nameid").Value;
 
-            var userIdClaim = userClaims.Claims.FirstOrDefault(c => c.Type == "nameid");
-            if (userIdClaim == null)
-            {
-                return Unauthorized();
-            }
+            var response = await _client.DeleteAsync($"{baseUri}deleteaccount/{accountId}");
 
-            var response = await _client.DeleteAsync($"{baseUri}deleteaccount/{userIdClaim.Value}");
             if (response.IsSuccessStatusCode)
             {
                 TempData["SuccessMessage"] = "Account deleted successfully!";
@@ -211,7 +207,6 @@ namespace RestaurantMVC.Controllers
 
             TempData["ErrorMessage"] = "Error deleting account.";
             return RedirectToAction("Index", new { message = "Error deleting account." });
-
         }
     }
 }

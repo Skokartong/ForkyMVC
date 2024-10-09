@@ -28,7 +28,7 @@
                 <td>@account.Phone</td>
                 <td>@account.Address</td>
                 <td>
-                    <form asp-action="DeleteAccount" method="post" class="d-inline">
+                    <form asp-action="DeleteAccount" asp-controller="Account" method="post" class="d-inline">
                         <input type="hidden" name="accountId" value="@account.Id" />
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
