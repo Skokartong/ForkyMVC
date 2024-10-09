@@ -141,7 +141,9 @@ namespace RestaurantMVC.Controllers
                     ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
                     return View(addBookingViewModel);
                 }
+
             }
+
             else
             {
                 var error = await availabilityResponse.Content.ReadAsStringAsync();
@@ -167,19 +169,17 @@ namespace RestaurantMVC.Controllers
             return View(addBookingViewModel);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteBooking(int bookingId)
+        public async Task<IActionResult> UpdateBooking(int bookingId)
         {
-            var response = await _client.DeleteAsync($"{baseUri}deletebooking/{bookingId}");
-            if (response.IsSuccessStatusCode)
+            var response = await _client.GetAsync($"{baseUri}viewbooking/{bookingId}");
+            if (!response.IsSuccessStatusCode)
             {
-                TempData["SuccessMessage"] = "Booking deleted successfully!";
-                return RedirectToAction("ViewBookings");
+                return View("Error");
             }
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            TempData["ErrorMessage"] = "Could not delete booking: " + errorMessage;
-            return RedirectToAction("ViewBookings");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var bookingToUpdate = JsonConvert.DeserializeObject<UpdateBookingViewModel>(jsonResponse);
+            return View(bookingToUpdate);
         }
 
         [HttpPost]
@@ -187,6 +187,37 @@ namespace RestaurantMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return View(updateBookingViewModel);
+            }
+
+            var availabilityCheck = new AvailabilityCheckViewModel
+            {
+                FK_RestaurantId = updateBookingViewModel.FK_RestaurantId,
+                StartTime = updateBookingViewModel.BookingStart,
+                EndTime = updateBookingViewModel.BookingEnd,
+                NumberOfGuests = updateBookingViewModel.NumberOfGuests
+            };
+
+            var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
+
+            if (availabilityResponse.IsSuccessStatusCode)
+            {
+                var availableTables = await availabilityResponse.Content.ReadAsAsync<List<TableViewModel>>();
+
+                if (!availableTables.Any())
+                {
+                    ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
+                    return View(updateBookingViewModel);
+                }
+
+                updateBookingViewModel.FK_TableId = availableTables.First().Id;
+
+            }
+
+            else
+            {
+                var error = await availabilityResponse.Content.ReadAsStringAsync();
+                ModelState.AddModelError(string.Empty, "Could not check availability: " + error);
                 return View(updateBookingViewModel);
             }
 
@@ -203,6 +234,22 @@ namespace RestaurantMVC.Controllers
             var errorMessage = await response.Content.ReadAsStringAsync();
             TempData["ErrorMessage"] = "Could not update booking: " + errorMessage;
             return View("Error");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBooking(int bookingId)
+        {
+            var response = await _client.DeleteAsync($"{baseUri}deletebooking/{bookingId}");
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Booking deleted successfully!";
+                return RedirectToAction("ViewBookings");
+            }
+
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            TempData["ErrorMessage"] = "Could not delete booking: " + errorMessage;
+            return RedirectToAction("ViewBookings");
         }
     }
 }
