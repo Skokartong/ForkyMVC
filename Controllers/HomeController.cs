@@ -27,6 +27,7 @@ namespace RestaurantMVC.Controllers
         public IActionResult About()
         {
             ViewData["Title"] = "About Our Booking System";
+
             return View();
         }
     }

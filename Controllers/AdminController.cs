@@ -133,14 +133,14 @@ namespace RestaurantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRestaurant(RestaurantViewModel restaurantViewModel)
+        public async Task<IActionResult> AddRestaurant(AddRestaurantViewModel addRestaurantViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(restaurantViewModel);
+                return View(addRestaurantViewModel);
             }
 
-            var json = JsonConvert.SerializeObject(restaurantViewModel);
+            var json = JsonConvert.SerializeObject(addRestaurantViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync($"{baseUri}addrestaurant", content);
