@@ -1,6 +1,6 @@
 ﻿namespace ForkyMVC.Models.Booking
 {
-    public class ViewBookingViewModel
+    public class BookingViewModel
     {
         public int Id { get; set; }
         public string CustomerName { get; set; }

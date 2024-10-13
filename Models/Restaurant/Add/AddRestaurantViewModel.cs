@@ -1,4 +1,4 @@
-﻿namespace ForkyMVC.Models.Restaurant
+﻿namespace ForkyMVC.Models.Restaurant.Add
 {
     public class AddRestaurantViewModel
     {

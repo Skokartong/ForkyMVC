@@ -1,6 +1,6 @@
 ﻿using ForkyMVC.Models.Account;
 using ForkyMVC.Models.Booking;
-using ForkyMVC.Models.Restaurant;
+using ForkyMVC.Models.Restaurant.View;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -79,7 +79,7 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                var bookings = JsonConvert.DeserializeObject<List<ViewBookingViewModel>>(jsonResponse);
+                var bookings = JsonConvert.DeserializeObject<List<BookingViewModel>>(jsonResponse);
                 return View(bookings);
             }
 
