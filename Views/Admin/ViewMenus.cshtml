@@ -31,7 +31,7 @@
                     <td>@menu.FK_RestaurantId</td>
                     <td>
                         <a href="@Url.Action("UpdateMenuItem", "Admin", new { menuId = menu.Id, restaurantId = menu.FK_RestaurantId })" class="btn btn-warning">Edit</a>
-                        <form asp-action="DeleteDish" method="post" class="d-inline">
+                        <form asp-action="DeleteDish" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this dish?');">
                             <input type="hidden" name="menuId" value="@menu.Id" />
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
