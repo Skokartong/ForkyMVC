@@ -27,7 +27,7 @@
                     <td>@table.FK_RestaurantId</td>
                     <td>
                         <a href="@Url.Action("UpdateTable", "Admin", new { tableId = table.Id })" class="btn btn-warning">Edit</a>
-                        <form asp-action="DeleteTable" method="post" class="d-inline">
+                        <form asp-action="DeleteTable" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this table?');">
                             <input type="hidden" name="tableId" value="@table.Id" />
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
