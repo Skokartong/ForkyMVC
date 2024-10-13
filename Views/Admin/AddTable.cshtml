@@ -1,36 +1,35 @@
 ﻿@model ForkyMVC.Models.Restaurant.Add.AddTableViewModel
 
-<div class="container mt-5">
-    <h1>Add New Table</h1>
+<div class="container mt-5 admin-card">
+    <h1 class="text-center">Add New Table</h1>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
     }
 
     <form asp-action="AddTable" method="post">
-        <div class="form-group">
-            <label asp-for="TableNumber"></label>
-            <input asp-for="TableNumber" class="form-control" />
-            <span asp-validation-for="TableNumber" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="AmountOfSeats"></label>
-            <input asp-for="AmountOfSeats" class="form-control" />
-            <span asp-validation-for="AmountOfSeats" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="FK_RestaurantId"></label>
-            <input asp-for="FK_RestaurantId" class="form-control" />
-            <span asp-validation-for="FK_RestaurantId" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-success">Add Table</button>
-    </form>
-</div>
 
-<button class="btn btn-secondary" onclick="window.history.back();">Go back</button>
+        <div class="form-group">
+            <label for="TableNumber">TableNumber</label>
+            <input asp-for="TableNumber" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="AmountOfSeats">Amount of seats</label>
+            <input asp-for="AmountOfSeats" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="FK_RestaurantId">Restaurant Id</label>
+            <input asp-for="FK_RestaurantId" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-warning">Add Table</button>
+    </form>
+
+    <button class="btn mint-green-btn mt-3" onclick="window.history.back();">Go back</button>
+</div>
 

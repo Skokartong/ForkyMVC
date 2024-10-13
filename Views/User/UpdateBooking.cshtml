@@ -4,7 +4,7 @@
     ViewBag.Title = "Update Booking";
 }
 
-<div class="container mx-auto p-5 mt-5">
+<div class="user-container mx-auto p-5 mt-5">
     <h1 class="text-center mb-4">Update Booking</h1>
 
     @if (TempData["SuccessMessage"] != null)
@@ -17,7 +17,7 @@
         <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
     }
 
-    <form asp-action="UpdateBooking" method="post" class="bg-light p-4 rounded shadow">
+    <form asp-action="UpdateBooking" method="post" class="bg-light p-4 rounded shadow user-card">
         <input type="hidden" asp-for="FK_RestaurantId" />
         <input type="hidden" asp-for="FK_TableId" />
         <input type="hidden" asp-for="FK_AccountId" />
@@ -31,13 +31,13 @@
 
         <div class="mb-3">
             <label asp-for="BookingStart" class="form-label"></label>
-            <input asp-for="BookingStart" class="form-control" type="datetime-local" required />
+            <input asp-for="BookingStart" class="form-control" type="datetime" required />
             <span asp-validation-for="BookingStart" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label asp-for="BookingEnd" class="form-label"></label>
-            <input asp-for="BookingEnd" class="form-control" type="datetime-local" required />
+            <input asp-for="BookingEnd" class="form-control" type="datetime" required />
             <span asp-validation-for="BookingEnd" class="text-danger"></span>
         </div>
 
@@ -47,10 +47,10 @@
             <span asp-validation-for="Message" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">
-            Update Booking
+        <button type="submit" class="btn btn-primary user-btn user-btn-primary">
+            Update
         </button>
-        <button type="button" class="btn btn-secondary w-100 mt-2" onclick="window.history.back();">Go Back</button>
+        <button type="button" class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go Back</button>
     </form>
 </div>
 

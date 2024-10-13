@@ -4,20 +4,21 @@
     ViewBag.Title = "Update Restaurant";
 }
 
-<div class="container mt-5">
-    <h1>Update Restaurant</h1>
+<div class="container mt-5 admin-card">
+    <h1 class="text-center">Update Restaurant</h1>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
     }
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
     }
 
     <form asp-action="UpdateRestaurant" method="post">
         <input type="hidden" asp-for="Id" />
+
         <div class="form-group">
             <label asp-for="RestaurantName"></label>
             <input asp-for="RestaurantName" class="form-control" />
@@ -38,9 +39,10 @@
             <textarea asp-for="AdditionalInformation" class="form-control"></textarea>
             <span asp-validation-for="AdditionalInformation" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Update Restaurant</button>
-    </form>
-</div>
 
-<button class="btn btn-secondary" onclick="window.history.back();">Go back</button>
+        <button type="submit" class="btn btn-warning">Update Restaurant</button>
+    </form>
+
+    <button class="btn mint-green-btn mt-3" onclick="window.history.back();">Go back</button>
+</div>
 

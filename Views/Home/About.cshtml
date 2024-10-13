@@ -5,18 +5,18 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">@ViewData["Title"]</h2>
     <p class="text-center mb-4">
-        Welcome to our restaurant booking system! By becoming a member, you gain access to all the top restaurants in the city and can book a table for free. Our platform allows you to explore menus, read reviews, and leave your own feedback about your dining experience.
+        <img src="~/images/restaurant.jpg" alt="Restaurant Image" class="img-fluid" style="border-radius: 15px;" />
     </p>
 
-    <h5 class="mt-4"><strong>Benefits of Membership:</strong></h5>
-    <ul class="list-group mb-4">
-        <li class="list-group-item">Free table reservations at any participating restaurant.</li>
-        <li class="list-group-item">View full menus from restaurants around the city.</li>
-        <li class="list-group-item">Read and leave reviews for restaurants you've visited.</li>
+    <h5 class="mt-4 text-center"><strong>Benefits of Membership:</strong></h5>
+    <ul class="list-group mb-4 text-center">
+        <li class="list-group-item"><span class="checkmark">&#10003;</span> Free table reservations at any participating restaurant.</li>
+        <li class="list-group-item"><span class="checkmark">&#10003;</span> View full menus from restaurants around the city.</li>
+        <li class="list-group-item"><span class="checkmark">&#10003;</span> Read and leave reviews for restaurants you've visited.</li>
     </ul>
 
     <div class="text-center">
-        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg me-2">Become a Member</a>
-        <a asp-controller="Account" asp-action="Login" class="btn btn-secondary btn-lg">Login</a>
+        <a asp-controller="Account" asp-action="Register" class="btn btn-primary user-btn user-btn-primary">Become a Member</a>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-secondary user-btn user-btn-secondary">Login</a>
     </div>
 </div>

@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - Forky</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/user.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -20,7 +23,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (!User.Identity.IsAuthenticated)
                         {
-                            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/forkyutantext.png" alt="Forky Logo" style="height: 40px;" /></a>
+                            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/forkyy.png" alt="Forky Logo" style="height: 40px;" /></a>
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
                             </li>
@@ -34,7 +37,7 @@
 
                         @if (User.IsInRole("Admin"))
                         {
-                            <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index"><img src="~/images/forkyutantext.png" alt="Forky Logo" style="height: 40px;" /></a>
+                            <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index"><img src="~/images/forkyy.png" alt="Forky Logo" style="height: 40px;" /></a>
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="ViewAccounts">Accounts</a>
@@ -48,7 +51,7 @@
                         }
                         else if (User.IsInRole("User"))
                         {
-                            <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Index"><img src="~/images/forkyutantext.png" alt="Forky Logo" style="height: 40px;" /></a>
+                            <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Index"><img src="~/images/forkyy.png" alt="Forky Logo" style="height: 40px;" /></a>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="ViewRestaurants">Restaurants</a>
                             </li>
