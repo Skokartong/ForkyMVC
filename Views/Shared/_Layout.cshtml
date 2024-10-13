@@ -6,25 +6,21 @@
     <title>@ViewData["Title"] - Forky</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ForkyMVC.styles.css" asp-append-version="true" />
-    <link href="~/css/tailwind-built.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Forky</a>
-                }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                     <ul class="navbar-nav flex-grow-1">
                         @if (!User.Identity.IsAuthenticated)
                         {
+                            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/forkyutantext.png" alt="Forky Logo" style="height: 40px;" /></a>
                             <li class="nav-item">
                                 <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
                             </li>
@@ -38,9 +34,8 @@
 
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Dashboard</a>
-                            </li>
+                            <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index"><img src="~/images/forkyutantext.png" alt="Forky Logo" style="height: 40px;" /></a>
+
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="ViewAccounts">Accounts</a>
                             </li>
@@ -50,18 +45,10 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="ViewRestaurants">Restaurants</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Admin" asp-action="ViewMenus">Menus</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Admin" asp-action="ViewTables">Tables</a>
-                            </li>
                         }
                         else if (User.IsInRole("User"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Dashboard</a>
-                            </li>
+                            <a class="navbar-brand" asp-area="" asp-controller="User" asp-action="Index"><img src="~/images/forkyutantext.png" alt="Forky Logo" style="height: 40px;" /></a>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="User" asp-action="ViewRestaurants">Restaurants</a>
                             </li>
@@ -73,17 +60,20 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="MyAccount">My Account</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="MyAccount">Account</a>
                             </li>
-                            <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
-                                <button type="submit" class="nav-link btn btn-link" style="border: none; background: none;">Log out</button>
-                            </form>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger nav-link" style="border: none; padding: 10px; margin-bottom: 0;">Log out</button>
+                                </form>
+                            </li>
                         }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
