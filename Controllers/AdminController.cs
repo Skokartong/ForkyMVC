@@ -1,6 +1,8 @@
 ﻿using ForkyMVC.Models.Account;
 using ForkyMVC.Models.Booking;
-using ForkyMVC.Models.Restaurant;
+using ForkyMVC.Models.Restaurant.Add;
+using ForkyMVC.Models.Restaurant.Update;
+using ForkyMVC.Models.Restaurant.View;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -97,7 +99,7 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var bookings = JsonConvert.DeserializeObject<List<ViewBookingViewModel>>(json);
+                var bookings = JsonConvert.DeserializeObject<List<BookingViewModel>>(json);
                 
                 return View(bookings);
             }
@@ -165,7 +167,7 @@ namespace RestaurantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTable(NewTableViewModel tableViewModel)
+        public async Task<IActionResult> AddTable(AddTableViewModel tableViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -195,7 +197,7 @@ namespace RestaurantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMenuItem(NewDishViewModel dishViewModel)
+        public async Task<IActionResult> AddMenuItem(AddDishViewModel dishViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -232,23 +234,23 @@ namespace RestaurantMVC.Controllers
             }
 
             var json = await response.Content.ReadAsStringAsync();
-            var restaurant = JsonConvert.DeserializeObject<RestaurantViewModel>(json);
+            var restaurant = JsonConvert.DeserializeObject<UpdateRestaurantViewModel>(json);
            
             return View(restaurant);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateRestaurant(RestaurantViewModel restaurantViewModel)
+        public async Task<IActionResult> UpdateRestaurant(UpdateRestaurantViewModel updateRestaurantViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(restaurantViewModel);
+                return View(updateRestaurantViewModel);
             }
 
-            var json = JsonConvert.SerializeObject(restaurantViewModel);
+            var json = JsonConvert.SerializeObject(updateRestaurantViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync($"{baseUri}updaterestaurant/{restaurantViewModel.Id}", content);
+            var response = await _client.PutAsync($"{baseUri}updaterestaurant/{updateRestaurantViewModel.Id}", content);
             
             if (response.IsSuccessStatusCode)
             {
@@ -269,7 +271,7 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var menuItem = JsonConvert.DeserializeObject<MenuViewModel>(json);
+                var menuItem = JsonConvert.DeserializeObject<UpdateMenuViewModel>(json);
                
                 return View(menuItem);
             }
@@ -280,26 +282,26 @@ namespace RestaurantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateMenuItem(int menuId, MenuViewModel menuViewModel)
+        public async Task<IActionResult> UpdateMenuItem(UpdateMenuViewModel updateMenuViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(menuViewModel);
+                return View(updateMenuViewModel);
             }
 
-            var json = JsonConvert.SerializeObject(menuViewModel);
+            var json = JsonConvert.SerializeObject(updateMenuViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync($"{baseUri}updatemenuitem/{menuId}", content);
+            var response = await _client.PutAsync($"{baseUri}updatemenuitem/{updateMenuViewModel.Id}", content);
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Menu item updated successfully!";
-                return RedirectToAction("ViewMenus", new { restaurantId = menuViewModel.FK_RestaurantId });
+                return RedirectToAction("ViewMenus", new { restaurantId = updateMenuViewModel.FK_RestaurantId });
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError("", $"Error updating menu item: {errorMessage}");
-            return View(menuViewModel);
+            return View(updateMenuViewModel);
         }
 
         public async Task<IActionResult> UpdateTable(int tableId)
@@ -309,7 +311,7 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                var table = JsonConvert.DeserializeObject<TableViewModel>(json);
+                var table = JsonConvert.DeserializeObject<UpdateTableViewModel>(json);
                 
                 return View(table);
             }
@@ -320,23 +322,23 @@ namespace RestaurantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateTable(TableViewModel tableViewModel)
+        public async Task<IActionResult> UpdateTable(UpdateTableViewModel updateTableViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(tableViewModel);
+                return View(updateTableViewModel);
             }
 
-            var json = JsonConvert.SerializeObject(tableViewModel);
+            var json = JsonConvert.SerializeObject(updateTableViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync($"{baseUri}updatetable/{tableViewModel.Id}", content);
+            var response = await _client.PutAsync($"{baseUri}updatetable/{updateTableViewModel.Id}", content);
             
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Table updated successfully!";
 
-                return RedirectToAction("ViewTables", new { restaurantId = tableViewModel.FK_RestaurantId });
+                return RedirectToAction("ViewTables", new { restaurantId = updateTableViewModel.FK_RestaurantId });
             }
 
             TempData["ErrorMessage"] = "Error updating table. Please try again.";

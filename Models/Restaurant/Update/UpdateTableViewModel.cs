@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ForkyMVC.Models.Restaurant
+namespace ForkyMVC.Models.Restaurant.Update
 {
-    public class NewTableViewModel
+    public class UpdateTableViewModel
     {
+        public int Id { get; set; }
         public int TableNumber { get; set; }
         public int AmountOfSeats { get; set; }
 

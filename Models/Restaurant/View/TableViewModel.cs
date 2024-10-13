@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ForkyMVC.Models.Restaurant
+namespace ForkyMVC.Models.Restaurant.View
 {
     public class TableViewModel
     {

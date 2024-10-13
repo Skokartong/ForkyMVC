@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ForkyMVC.Models.Restaurant
+namespace ForkyMVC.Models.Restaurant.Add
 {
-    public class NewDishViewModel
+    public class AddDishViewModel
     {
         public string NameOfDish { get; set; }
         public string Drink { get; set; }
