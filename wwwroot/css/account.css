@@ -1,9 +1,26 @@
-﻿.account-card {
+﻿.login-card {
     border-radius: 15px !important;
     margin: 1em;
     padding: 20px;
     text-align: center;
     transition: transform 0.3s ease;
+    max-width: 600px; 
+    width: 100%; 
+}
+
+.container {
+    max-height: 80vh; 
+    overflow: auto; 
+}
+
+
+.register-card {
+    max-height: 60vh; 
+    overflow-y: auto; 
+}
+
+.account-container {
+    width: 100%;
 }
 
 .account-card h2, .account-card h4 {
