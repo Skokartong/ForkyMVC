@@ -1,40 +1,43 @@
 ﻿@model List<ForkyMVC.Models.Restaurant.View.MenuViewModel>
 
-<div class="user-container mt-5">
-    <h2>Menu</h2>
+<div class="user-container mt-5 d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="user-card-container d-flex flex-column align-items-center">
+        <h2 class="text-center">Menu</h2>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success user-alert">@TempData["SuccessMessage"]</div>
-    }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success user-alert">@TempData["SuccessMessage"]</div>
+        }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger user-alert">@TempData["ErrorMessage"]</div>
-    }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger user-alert">@TempData["ErrorMessage"]</div>
+        }
 
-    <table class="table table-striped user-table">
-        <thead>
-            <tr>
-                <th>Dish</th>
-                <th>Drink</th>
-                <th>Ingredients</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var menu in Model)
-            {
+        <table class="table table-striped user-table">
+            <thead>
                 <tr>
-                    <td>@menu.NameOfDish</td>
-                    <td>@menu.Drink</td>
-                    <td>@menu.Ingredients</td>
-                    <td>@menu.Price.ToString() $</td>
+                    <th>Dish</th>
+                    <th>Drink</th>
+                    <th>Ingredients</th>
+                    <th>Price</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var menu in Model)
+                {
+                    <tr>
+                        <td>@menu.NameOfDish</td>
+                        <td>@menu.Drink</td>
+                        <td>@menu.Ingredients</td>
+                        <td>@menu.Price.ToString() $</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go back</button>
+    </div>
 </div>
 
-<button class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go back</button>
 

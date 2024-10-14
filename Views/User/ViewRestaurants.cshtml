@@ -1,6 +1,6 @@
 ﻿@model List<ForkyMVC.Models.Restaurant.View.RestaurantViewModel>
 
-<div class="user-container mt-5">
+<div class="user-container d-flex flex-column align-items-center justify-content-center mt-5">
     <h2>Restaurants</h2>
 
     @if (TempData["SuccessMessage"] != null)
@@ -13,32 +13,34 @@
         <div class="alert alert-danger user-alert">@TempData["ErrorMessage"]</div>
     }
 
-    <table class="table table-striped user-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Location</th>
-                <th>Additional details</th>
-                <th>Details</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var restaurant in Model)
-            {
+    <div class="user-card-container">
+        <table class="table table-striped user-table">
+            <thead>
                 <tr>
-                    <td>@restaurant.RestaurantName</td>
-                    <td>@restaurant.TypeOfRestaurant</td>
-                    <td>@restaurant.Location</td>
-                    <td>@restaurant.AdditionalInformation</td>
-                    <td>
-                        <a class="btn btn-primary user-btn user-btn-primary" asp-action="ViewMenu" asp-route-restaurantId="@restaurant.Id">View Menu</a>
-                        <a class="btn btn-secondary user-btn user-btn-secondary" asp-action="BookTable" asp-route-restaurantId="@restaurant.Id">Book Table</a>
-                    </td>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Additional details</th>
+                    <th>Details</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var restaurant in Model)
+                {
+                    <tr>
+                        <td>@restaurant.RestaurantName</td>
+                        <td>@restaurant.TypeOfRestaurant</td>
+                        <td>@restaurant.Location</td>
+                        <td>@restaurant.AdditionalInformation</td>
+                        <td>
+                            <a class="btn btn-primary user-btn user-btn-primary" asp-action="ViewMenu" asp-route-restaurantId="@restaurant.Id">View Menu</a>
+                            <a class="btn btn-secondary user-btn user-btn-secondary" asp-action="BookTable" asp-route-restaurantId="@restaurant.Id">Book Table</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
