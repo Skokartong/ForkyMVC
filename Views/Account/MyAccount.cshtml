@@ -31,7 +31,7 @@
     <div class="mt-4">
         <h4>Actions</h4>
         <div class="d-flex justify-content-center">
-            <a class="btn btn-primary me-2" asp-action="UpdateAccount" asp-route-accountId="@Model.Id">Update Account</a>
+            <a class="btn btn-warning" asp-action="UpdateAccount" asp-route-accountId="@Model.Id">Update Account</a>
             <form asp-action="DeleteAccount" asp-route-accountId="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete your account?');">
                 <button type="submit" class="btn btn-danger">Delete Account</button>
             </form>
