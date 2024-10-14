@@ -1,19 +1,19 @@
 ﻿@model List<ForkyMVC.Models.Restaurant.View.MenuViewModel>
 
-<div class="container mt-5">
+<div class="user-container mt-5">
     <h2>Menu</h2>
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+        <div class="alert alert-success user-alert">@TempData["SuccessMessage"]</div>
     }
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+        <div class="alert alert-danger user-alert">@TempData["ErrorMessage"]</div>
     }
 
-    <table class="table table-striped">
+    <table class="table table-striped user-table">
         <thead>
             <tr>
                 <th>Dish</th>
@@ -36,4 +36,5 @@
     </table>
 </div>
 
-<button class="btn btn-secondary" onclick="window.history.back();">Go back</button>
+<button class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go back</button>
+

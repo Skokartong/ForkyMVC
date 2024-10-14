@@ -4,7 +4,7 @@
     ViewBag.Title = "Book a Table";
 }
 
-<div class="container mt-5">
+<div class="user-container mt-5">
     <h1 class="mb-4 text-center">Book a Table</h1>
 
     @if (TempData["SuccessMessage"] != null)
@@ -17,10 +17,9 @@
         <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
     }
 
-    <form asp-action="BookTable" method="post" class="bg-light p-4 rounded shadow">
+    <form asp-action="BookTable" method="post" class="bg-light p-4 rounded shadow user-card">
         <input type="hidden" asp-for="FK_RestaurantId" />
         <input type="hidden" asp-for="FK_AccountId" />
-
         <div class="row mb-3">
             <div class="col-md-6">
                 <div class="form-group">
@@ -56,7 +55,8 @@
         </div>
 
         <div class="text-center">
-            <button type="submit" class="btn btn-primary btn-lg">Book Table</button>
+            <button type="submit" class="btn btn-primary user-btn user-btn-primary">Book Table</button>
         </div>
+        <button type="button" class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go Back</button>
     </form>
 </div>

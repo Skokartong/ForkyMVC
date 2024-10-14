@@ -2,36 +2,37 @@
     ViewBag.Title = "User Dashboard";
 }
 
-<div class="container mt-5">
+<div class="container mt-5 text-center">
     <h1 class="text-center">User Dashboard</h1>
     <div class="row mt-4">
         <div class="col-md-4 mb-4">
-            <div class="card text-white bg-primary mb-3">
+            <div class="card user-card bg-orange-1">
                 <div class="card-header">Account Management</div>
                 <div class="card-body">
                     <h5 class="card-title">Manage your account settings</h5>
-                    <a asp-action="MyAccount" asp-controller="Account" class="btn btn-light mb-2">View Account</a>
+                    <a asp-action="MyAccount" asp-controller="Account" class="btn orange-white-btn mt-3">View Account</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card text-white bg-success mb-3">
+            <div class="card user-card bg-orange-2">
                 <div class="card-header">Restaurant Viewing</div>
                 <div class="card-body">
                     <h5 class="card-title">Browse available restaurants</h5>
-                    <a asp-action="ViewRestaurants" class="btn btn-light">View Restaurants</a>
+                    <a asp-action="ViewRestaurants" class="btn orange-white-btn mt-3">View Restaurants</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card text-white bg-danger mb-3">
+            <div class="card user-card bg-orange-3">
                 <div class="card-header">Booking Management</div>
                 <div class="card-body">
                     <h5 class="card-title">Manage your bookings</h5>
-                    <a asp-action="ViewBookings" class="btn btn-light mb-2">View Bookings</a>
+                    <a asp-action="ViewBookings" class="btn orange-white-btn mt-3">View Bookings</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 

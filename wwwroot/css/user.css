@@ -1,0 +1,59 @@
+﻿.user-card {
+    border-radius: 15px;
+    background-color:green;
+    margin: 1em;
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.bg-orange-1 {
+    background-color: #efdbae;
+}
+
+.bg-orange-2 {
+    background-color: #78e5b2;
+}
+
+.bg-orange-3 {
+    background-color: #debc6f;
+}
+
+.orange-white-btn {
+    background-color: #de9b46;
+    border-radius: 15px;
+    border: 2px solid black;
+    text-transform: uppercase;
+    color: white;
+}
+
+.orange-white-btn:hover {
+    background-color: #a0ecd6;
+    transform: scale(1.1);
+    color: white;
+}
+
+.user-btn-secondary {
+    border-radius: 15px;
+    background-color: #53c4a1;
+    text-transform: uppercase;
+    border: 2px solid black;
+}
+
+.user-btn-primary {
+    border-radius: 15px;
+    background-color: #de9b46;
+    text-transform: uppercase;
+    border: 2px solid black;
+}
+
+.user-btn-primary:hover {
+    border-radius: 15px;
+    background-color: grey;
+    text-transform: uppercase;
+    border: 2px solid black;
+}
+
+
+
+

@@ -1,0 +1,40 @@
+﻿.account-card {
+    border-radius: 15px !important;
+    margin: 1em;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.account-card h2, .account-card h4 {
+    color: #2a2a2a;
+
+}
+
+.account-card .btn {
+    border-radius: 15px;
+    text-transform: uppercase;
+}
+
+ .account-card .btn-primary {
+    background-color: #e3bf59;
+    border: 2px solid #3e8e41;
+ }
+
+ .account-card .btn-primary:hover {
+    background-color: grey;
+    transform: scale(1.1);
+ }
+
+.account-card .btn-orange {
+    background-color: orange; 
+    border: none; 
+}
+
+.account-card .btn-orange:hover {
+    background-color: darkorange; 
+}
+
+.account-card .btn-mint:hover {
+    background-color: #279270; 
+}

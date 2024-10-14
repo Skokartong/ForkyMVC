@@ -141,7 +141,6 @@ namespace RestaurantMVC.Controllers
                     ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
                     return View(addBookingViewModel);
                 }
-
             }
 
             else
@@ -183,7 +182,7 @@ namespace RestaurantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateBooking(int bookingId, UpdateBookingViewModel updateBookingViewModel)
+        public async Task<IActionResult> UpdateBooking(UpdateBookingViewModel updateBookingViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -206,36 +205,32 @@ namespace RestaurantMVC.Controllers
 
                 if (!availableTables.Any())
                 {
-                    ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
+                    ModelState.AddModelError(string.Empty, "No available tables for the selected time");
                     return View(updateBookingViewModel);
                 }
 
                 updateBookingViewModel.FK_TableId = availableTables.First().Id;
-
             }
-
             else
             {
-                var error = await availabilityResponse.Content.ReadAsStringAsync();
-                ModelState.AddModelError(string.Empty, "Could not check availability: " + error);
+                ModelState.AddModelError(string.Empty, "Could not check availability");
                 return View(updateBookingViewModel);
             }
 
             var json = JsonConvert.SerializeObject(updateBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"{baseUri}updatebooking/{updateBookingViewModel.Id}", content);
 
-            var response = await _client.PutAsync($"{baseUri}updatebooking/{bookingId}", content);
             if (response.IsSuccessStatusCode)
             {
-                TempData["SuccessMessage"] = "Booking updated successfully!";
+                TempData["SuccessMessage"] = "Booking updated successfully";
                 return RedirectToAction("ViewBookings");
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
             TempData["ErrorMessage"] = "Could not update booking: " + errorMessage;
-            return View("Error");
+            return View(updateBookingViewModel);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> DeleteBooking(int bookingId)
