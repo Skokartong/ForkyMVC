@@ -16,6 +16,7 @@
                     <th>Guests</th>
                     <th>Start</th>
                     <th>End</th>
+                    <th>Table</th>
                     <th>Message</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                         <td>@booking.NumberOfGuests</td>
                         <td>@booking.BookingStart.ToString("g")</td>
                         <td>@booking.BookingEnd.ToString("g")</td>
+                        <td>@booking.FK_TableId</td>
                         <td>@booking.Message</td>
                     </tr>
                 }

@@ -100,7 +100,7 @@ namespace RestaurantMVC.Controllers
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var bookings = JsonConvert.DeserializeObject<List<BookingViewModel>>(json);
-                
+
                 return View(bookings);
             }
 
