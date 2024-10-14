@@ -66,12 +66,14 @@
     border-radius: 15px;
     border: 2px solid black;
     text-transform: uppercase;
+    margin:0.5em;
 }
 
 .btn-danger {
     border-radius: 15px;
     border: 2px solid black;
     text-transform: uppercase;
+    margin:0.5em;
 }
 
 .btn-danger:hover {
