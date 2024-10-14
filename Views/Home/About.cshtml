@@ -2,21 +2,22 @@
     ViewData["Title"] = "About Our Booking System";
 }
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
-    <p class="text-center mb-4">
-        <img src="~/images/restaurant.jpg" alt="Restaurant Image" class="img-fluid" style="border-radius: 15px;" />
-    </p>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <div class="container text-center">
+        <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+        <p class="text-center mb-4">
+            <img src="~/images/restaurant.jpg" alt="Restaurant Image" class="img-fluid" style="border-radius: 15px; width: 60%; max-width: 500px;" />
+        </p>
 
-    <h5 class="mt-4 text-center"><strong>Benefits of Membership:</strong></h5>
-    <ul class="list-group mb-4 text-center">
-        <li class="list-group-item"><span class="checkmark">&#10003;</span> Free table reservations at any participating restaurant.</li>
-        <li class="list-group-item"><span class="checkmark">&#10003;</span> View full menus from restaurants around the city.</li>
-        <li class="list-group-item"><span class="checkmark">&#10003;</span> Read and leave reviews for restaurants you've visited.</li>
-    </ul>
+        <ul class="list-group mb-4 text-center">
+            <li class="list-group-item"><span class="checkmark">&#10003;</span> Free table reservations at any participating restaurant.</li>
+            <li class="list-group-item"><span class="checkmark">&#10003;</span> View full menus from restaurants around the city.</li>
+            <li class="list-group-item"><span class="checkmark">&#10003;</span> Read and leave reviews for restaurants you've visited.</li>
+        </ul>
 
-    <div class="text-center">
-        <a asp-controller="Account" asp-action="Register" class="btn btn-primary user-btn user-btn-primary">Become a Member</a>
-        <a asp-controller="Account" asp-action="Login" class="btn btn-secondary user-btn user-btn-secondary">Login</a>
+        <div class="text-center">
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary user-btn user-btn-primary">Become a Member</a>
+            <a asp-controller="Account" asp-action="Login" class="btn btn-secondary user-btn user-btn-secondary">Login</a>
+        </div>
     </div>
 </div>
