@@ -4,53 +4,57 @@
     ViewBag.Title = "Update Booking";
 }
 
-<div class="user-container mx-auto p-5 mt-5">
-    <h1 class="text-center mb-4">Update Booking</h1>
+<div class="user-container d-flex justify-content-center align-items-center" style="height: 80vh; padding: 20px;">
+    <div class="user-card-container bg-light p-4 rounded shadow">
+        <h1 class="text-center mb-4">Update Booking</h1>
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
-    }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+        }
 
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
-    }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
+        }
 
-    <form asp-action="UpdateBooking" method="post" class="bg-light p-4 rounded shadow user-card">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="FK_RestaurantId" />
-        <input type="hidden" asp-for="FK_AccountId" />
+        <form asp-action="UpdateBooking" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FK_RestaurantId" />
+            <input type="hidden" asp-for="FK_AccountId" />
+            <input type="hidden" asp-for="FK_TableId" /> 
 
-        <div class="mb-3">
-            <label asp-for="NumberOfGuests" class="form-label"></label>
-            <input asp-for="NumberOfGuests" class="form-control" type="number" min="1" required />
-            <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
-        </div>
+            <div class="mb-3">
+                <label asp-for="NumberOfGuests" class="form-label"></label>
+                <input asp-for="NumberOfGuests" class="form-control" type="number" min="1" required />
+                <span asp-validation-for="NumberOfGuests" class="text-danger"></span>
+            </div>
 
-        <div class="mb-3">
-            <label asp-for="BookingStart" class="form-label"></label>
-            <input asp-for="BookingStart" class="form-control" type="datetime" required />
-            <span asp-validation-for="BookingStart" class="text-danger"></span>
-        </div>
+            <div class="mb-3">
+                <label asp-for="BookingStart" class="form-label"></label>
+                <input asp-for="BookingStart" class="form-control" type="datetime" required />
+                <span asp-validation-for="BookingStart" class="text-danger"></span>
+            </div>
 
-        <div class="mb-3">
-            <label asp-for="BookingEnd" class="form-label"></label>
-            <input asp-for="BookingEnd" class="form-control" type="datetime" required />
-            <span asp-validation-for="BookingEnd" class="text-danger"></span>
-        </div>
+            <div class="mb-3">
+                <label asp-for="BookingEnd" class="form-label"></label>
+                <input asp-for="BookingEnd" class="form-control" type="datetime" required />
+                <span asp-validation-for="BookingEnd" class="text-danger"></span>
+            </div>
 
-        <div class="mb-3">
-            <label asp-for="Message" class="form-label"></label>
-            <textarea asp-for="Message" class="form-control" rows="4"></textarea>
-            <span asp-validation-for="Message" class="text-danger"></span>
-        </div>
+            <div class="mb-3">
+                <label asp-for="Message" class="form-label"></label>
+                <textarea asp-for="Message" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
 
-        <button type="submit" class="btn btn-primary user-btn user-btn-primary">
-            Update
-        </button>
-        <button type="button" class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go Back</button>
-    </form>
+            <button type="submit" class="btn btn-primary user-btn user-btn-primary">
+                Update
+            </button>
+            <button type="button" class="btn btn-secondary user-btn user-btn-secondary" onclick="window.history.back();">Go Back</button>
+        </form>
+    </div>
 </div>
+
 
 
