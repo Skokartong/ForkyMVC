@@ -184,43 +184,9 @@ namespace RestaurantMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateBooking(UpdateBookingViewModel updateBookingViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-                Console.WriteLine(string.Join(", ", errors));
-                return View(updateBookingViewModel);
-            }
-
-            var availabilityCheck = new AvailabilityCheckViewModel
-            {
-                FK_RestaurantId = updateBookingViewModel.FK_RestaurantId,
-                StartTime = updateBookingViewModel.BookingStart,
-                EndTime = updateBookingViewModel.BookingEnd,
-                NumberOfGuests = updateBookingViewModel.NumberOfGuests
-            };
-
-            var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
-
-            if (availabilityResponse.IsSuccessStatusCode)
-            {
-                var availableTables = await availabilityResponse.Content.ReadAsAsync<List<TableViewModel>>();
-
-                if (!availableTables.Any())
-                {
-                    ModelState.AddModelError(string.Empty, "No available tables for the selected time");
-                    return View(updateBookingViewModel);
-                }
-
-                updateBookingViewModel.FK_TableId = availableTables.First().Id;
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Could not check availability");
-                return View(updateBookingViewModel);
-            }
-
             var json = JsonConvert.SerializeObject(updateBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await _client.PutAsync($"{baseUri}updatebooking/{updateBookingViewModel.Id}", content);
 
             if (response.IsSuccessStatusCode)
