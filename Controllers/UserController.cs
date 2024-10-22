@@ -76,6 +76,12 @@ namespace RestaurantMVC.Controllers
 
             var response = await _client.GetAsync($"{baseUri}viewbookings/{userIdClaim.Value}");
 
+            if (!response.IsSuccessStatusCode)
+            {
+                TempData["ErrorMessage"] = "Error retrieving bookings.";
+                return View(new List<BookingViewModel>()); 
+            }
+
             if (response.IsSuccessStatusCode)
             {
                 var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -85,7 +91,10 @@ namespace RestaurantMVC.Controllers
 
             var errorMessage = await response.Content.ReadAsStringAsync();
             ViewBag.ErrorMessage = "Could not find any bookings: " + errorMessage;
-            return View("Error");
+
+            var emptyBookings = JsonConvert.DeserializeObject<List<BookingViewModel>>(errorMessage);
+
+            return View(emptyBookings ?? new List<BookingViewModel>());
         }
 
         public async Task<IActionResult> BookTable(int restaurantId)
