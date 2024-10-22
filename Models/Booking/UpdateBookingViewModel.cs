@@ -13,7 +13,5 @@ namespace ForkyMVC.Models.Booking
         public int FK_RestaurantId { get; set; }
         [ForeignKey("Account")]
         public int FK_AccountId { get; set; }
-        [ForeignKey("Table")]
-        public int FK_TableId { get; set; }
     }
 }

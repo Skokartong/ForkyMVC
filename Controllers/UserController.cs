@@ -120,36 +120,6 @@ namespace RestaurantMVC.Controllers
                 return View(addBookingViewModel);
             }
 
-            var availabilityCheck = new AvailabilityCheckViewModel
-            {
-                FK_RestaurantId = addBookingViewModel.FK_RestaurantId,
-                StartTime = addBookingViewModel.BookingStart,
-                EndTime = addBookingViewModel.BookingEnd,
-                NumberOfGuests = addBookingViewModel.NumberOfGuests,
-            };
-
-            var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
-
-            Console.WriteLine(availabilityResponse.Content);
-
-            if (availabilityResponse.IsSuccessStatusCode)
-            {
-                var availableTables = await availabilityResponse.Content.ReadAsAsync<List<TableViewModel>>();
-
-                if (availableTables.Count == 0)
-                {
-                    ModelState.AddModelError(string.Empty, "No available tables for the selected time and number of guests.");
-                    return View(addBookingViewModel);
-                }
-            }
-
-            else
-            {
-                var error = await availabilityResponse.Content.ReadAsStringAsync();
-                ModelState.AddModelError(string.Empty, "Could not check availability: " + error);
-                return View(addBookingViewModel);
-            }
-
             var json = JsonConvert.SerializeObject(addBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -184,41 +154,9 @@ namespace RestaurantMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateBooking(UpdateBookingViewModel updateBookingViewModel)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(updateBookingViewModel);
-            }
-
-            var availabilityCheck = new AvailabilityCheckViewModel
-            {
-                FK_RestaurantId = updateBookingViewModel.FK_RestaurantId,
-                StartTime = updateBookingViewModel.BookingStart,
-                EndTime = updateBookingViewModel.BookingEnd,
-                NumberOfGuests = updateBookingViewModel.NumberOfGuests
-            };
-
-            var availabilityResponse = await _client.PostAsJsonAsync($"{baseUri}checkavailability", availabilityCheck);
-
-            if (availabilityResponse.IsSuccessStatusCode)
-            {
-                var availableTables = await availabilityResponse.Content.ReadAsAsync<List<TableViewModel>>();
-
-                if (!availableTables.Any())
-                {
-                    ModelState.AddModelError(string.Empty, "No available tables for the selected time");
-                    return View(updateBookingViewModel);
-                }
-
-                updateBookingViewModel.FK_TableId = availableTables.First().Id;
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Could not check availability");
-                return View(updateBookingViewModel);
-            }
-
             var json = JsonConvert.SerializeObject(updateBookingViewModel);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await _client.PutAsync($"{baseUri}updatebooking/{updateBookingViewModel.Id}", content);
 
             if (response.IsSuccessStatusCode)
