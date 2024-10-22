@@ -186,6 +186,8 @@ namespace RestaurantMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                Console.WriteLine(string.Join(", ", errors));
                 return View(updateBookingViewModel);
             }
 
