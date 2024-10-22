@@ -355,7 +355,6 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Restaurant deleted successfully!";
-
                 return RedirectToAction("ViewRestaurants");
             }
 
@@ -372,23 +371,12 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Table deleted successfully!";
-                var tableResponse = await _client.GetAsync($"{baseUri}viewtable/{tableId}");
-
-                if (tableResponse.IsSuccessStatusCode)
-                {
-                    var json = await tableResponse.Content.ReadAsStringAsync();
-                    var table = JsonConvert.DeserializeObject<TableViewModel>(json);
-                    
-                    return RedirectToAction("ViewTables", new { restaurantId = table?.FK_RestaurantId });
-                }
-
-                TempData["ErrorMessage"] = "Error retrieving table details after deletion.";
+                return RedirectToAction("ViewTables");
             }
 
-            else
-            {
-                TempData["ErrorMessage"] = "Error deleting table. Please try again.";
-            }
+            var errorMessage = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", $"Error deleting table item: {errorMessage}");
+            TempData["ErrorMessage"] = "Error deleting table. Please try again.";
 
             return View("Error");
         }
@@ -401,7 +389,6 @@ namespace RestaurantMVC.Controllers
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Dish deleted successfully!";
-
                 return RedirectToAction("ViewMenus", new { restaurantId = ViewBag.RestaurantId });
             }
 

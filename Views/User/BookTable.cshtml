@@ -31,7 +31,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="BookingStart" class="control-label"></label>
-                    <input asp-for="BookingStart" class="form-control" type="datetime-local" required />
+                    <input asp-for="BookingStart" class="form-control" type="datetime-local"
+                           value="@DateTime.Now.AddHours(3).ToString("yyyy-MM-ddTHH:mm")" required />
                     <span asp-validation-for="BookingStart" class="text-danger"></span>
                 </div>
             </div>
@@ -41,7 +42,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="BookingEnd" class="control-label"></label>
-                    <input asp-for="BookingEnd" class="form-control" type="datetime-local" required />
+                    <input asp-for="BookingEnd" class="form-control" type="datetime-local"
+                           value="@DateTime.Now.AddHours(5).ToString("yyyy-MM-ddTHH:mm")" required />
                     <span asp-validation-for="BookingEnd" class="text-danger"></span>
                 </div>
             </div>
