@@ -4,7 +4,7 @@
     ViewBag.Title = "My Bookings";
 }
 
-<div class="user-container mt-5 d-flex justify-content-center align-items-center" style="height: 80vh;">
+<div class="user-container mt-5 d-flex justify-content-center align-items-center">
     <div class="user-card-container d-flex flex-column align-items-center">
         <h1 class="text-center mb-4">My Bookings</h1>
 
@@ -27,9 +27,8 @@
             <table class="table table-striped table-bordered user-table">
                 <thead class="table-light">
                     <tr>
-                        <th>Table Id</th>
                         <th>Restaurant</th>
-                        <th>Guest total</th>
+                        <th>Guests</th>
                         <th>Start</th>
                         <th>End</th>
                         <th>Message</th>
@@ -40,7 +39,6 @@
                     @foreach (var booking in Model)
                     {
                         <tr>
-                            <td>@booking.FK_TableId</td>
                             <td>@booking.RestaurantName</td>
                             <td>@booking.NumberOfGuests</td>
                             <td>@booking.BookingStart.ToString("g")</td>
@@ -48,8 +46,8 @@
                             <td>@booking.Message</td>
                             <td>
                                 <a asp-action="UpdateBooking" asp-route-bookingId="@booking.Id" class="btn btn-warning">Update</a>
-                                <form asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this booking?');">
-                                    <button type="submit" class="btn btn-danger btn-sm user-btn">Delete</button>
+                                <form method="post" asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
                         </tr>

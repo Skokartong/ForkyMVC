@@ -47,13 +47,12 @@ namespace RestaurantMVC.Controllers
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var customers = JsonConvert.DeserializeObject<List<AccountViewModel>>(json);
-                
-                return View(customers);
+
+                return View(customers ?? new List<AccountViewModel>()); 
             }
-           
+
             TempData["ErrorMessage"] = "Unable to retrieve accounts. Please try again.";
-            
-            return View("Error");
+            return View(new List<AccountViewModel>());
         }
 
         public async Task<IActionResult> ViewRestaurants()
@@ -65,13 +64,12 @@ namespace RestaurantMVC.Controllers
                 var json = await response.Content.ReadAsStringAsync();
                 var restaurants = JsonConvert.DeserializeObject<List<RestaurantViewModel>>(json);
                 ViewBag.NewRestaurant = new RestaurantViewModel();
-                
-                return View("ViewRestaurants", restaurants);
+
+                return View(restaurants ?? new List<RestaurantViewModel>());
             }
 
             TempData["ErrorMessage"] = "Unable to retrieve restaurants. Please try again.";
-            
-            return View("Error");
+            return View(new List<RestaurantViewModel>());
         }
 
         public async Task<IActionResult> ViewMenus()
@@ -83,13 +81,12 @@ namespace RestaurantMVC.Controllers
                 var json = await response.Content.ReadAsStringAsync();
                 var menus = JsonConvert.DeserializeObject<List<MenuViewModel>>(json);
                 ViewBag.NewMenu = new MenuViewModel();
-                
-                return View("ViewMenus", menus);
+
+                return View(menus ?? new List<MenuViewModel>());
             }
 
             TempData["ErrorMessage"] = "Unable to retrieve menus. Please try again.";
-            
-            return View("Error");
+            return View(new List<MenuViewModel>());
         }
 
         public async Task<IActionResult> ViewBookings()
@@ -101,12 +98,11 @@ namespace RestaurantMVC.Controllers
                 var json = await response.Content.ReadAsStringAsync();
                 var bookings = JsonConvert.DeserializeObject<List<BookingViewModel>>(json);
 
-                return View(bookings);
+                return View(bookings ?? new List<BookingViewModel>());
             }
 
             TempData["ErrorMessage"] = "Unable to retrieve bookings. Please try again.";
-            
-            return View("Error");
+            return View(new List<BookingViewModel>());
         }
 
         public async Task<IActionResult> ViewTables()
@@ -118,12 +114,11 @@ namespace RestaurantMVC.Controllers
                 var json = await response.Content.ReadAsStringAsync();
                 var tables = JsonConvert.DeserializeObject<List<TableViewModel>>(json);
                 ViewBag.NewTable = new TableViewModel();
-                
-                return View("ViewTables", tables);
+                return View(tables ?? new List<TableViewModel>());
             }
+
             TempData["ErrorMessage"] = "Unable to retrieve tables. Please try again.";
-            
-            return View("Error");
+            return View(new List<TableViewModel>());
         }
 
         // ADD actions
@@ -149,14 +144,13 @@ namespace RestaurantMVC.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Restaurant added successfully!";
+                TempData["SuccessMessage"] = "Restaurant added successfully!";
                 
                 return RedirectToAction("ViewRestaurants");
             }
 
             TempData["ErrorMessage"] = "Error adding restaurant. Please try again.";
-            
-            return View("Error");
+            return View(addRestaurantViewModel);
         }
 
         public IActionResult AddTable()
@@ -181,12 +175,12 @@ namespace RestaurantMVC.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Table added successfully!";
+                TempData["SuccessMessage"] = "Table added successfully!";
                 return RedirectToAction("ViewTables");
             }
 
             TempData["ErrorMessage"] = "Error adding table. Please try again.";
-            return View("Error");
+            return View(tableViewModel);
         }
 
         public IActionResult AddMenuItem()
@@ -211,14 +205,12 @@ namespace RestaurantMVC.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Menu item added successfully!";
-                
+                TempData["SuccessMessage"] = "Menu item added successfully!";              
                 return RedirectToAction("ViewMenus");
             }
 
             TempData["ErrorMessage"] = "Error adding menu item. Please try again.";
-            
-            return View("Error");
+            return View(dishViewModel);
         }
 
         // UPDATE ACTIONS
@@ -229,14 +221,13 @@ namespace RestaurantMVC.Controllers
             if (!response.IsSuccessStatusCode)
             {
                 TempData["ErrorMessage"] = "Unable to retrieve restaurant details. Please try again.";
-                
-                return View("Error");
+                return View(new UpdateRestaurantViewModel());
             }
 
             var json = await response.Content.ReadAsStringAsync();
             var restaurant = JsonConvert.DeserializeObject<UpdateRestaurantViewModel>(json);
-           
-            return View(restaurant);
+
+            return View(restaurant ?? new UpdateRestaurantViewModel());
         }
 
         [HttpPost]
@@ -254,14 +245,13 @@ namespace RestaurantMVC.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Restaurant updated successfully!";
+                TempData["SuccessMessage"] = "Restaurant updated successfully!";
                 
                 return RedirectToAction("ViewRestaurants");
             }
 
             TempData["ErrorMessage"] = "Error updating restaurant. Please try again.";
-            
-            return View("Error");
+            return View(updateRestaurantViewModel);
         }
 
         public async Task<IActionResult> UpdateMenuItem(int menuId)
@@ -272,13 +262,11 @@ namespace RestaurantMVC.Controllers
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var menuItem = JsonConvert.DeserializeObject<UpdateMenuViewModel>(json);
-               
-                return View(menuItem);
+                return View(menuItem ?? new UpdateMenuViewModel());
             }
 
             TempData["ErrorMessage"] = "Unable to retrieve menu item details. Please try again.";
-            
-            return View("Error");
+            return View(new UpdateMenuViewModel());
         }
 
         [HttpPost]
@@ -295,7 +283,7 @@ namespace RestaurantMVC.Controllers
             var response = await _client.PutAsync($"{baseUri}updatemenuitem/{updateMenuViewModel.Id}", content);
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Menu item updated successfully!";
+                TempData["SuccessMessage"] = "Menu item updated successfully!";
                 return RedirectToAction("ViewMenus", new { restaurantId = updateMenuViewModel.FK_RestaurantId });
             }
 
@@ -317,8 +305,7 @@ namespace RestaurantMVC.Controllers
             }
 
             TempData["ErrorMessage"] = "Unable to retrieve menu item details. Please try again.";
-            
-            return View("Error");
+            return View(new UpdateTableViewModel());
         }
 
         [HttpPost]
@@ -336,14 +323,13 @@ namespace RestaurantMVC.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Table updated successfully!";
+                TempData["SuccessMessage"] = "Table updated successfully!";
 
                 return RedirectToAction("ViewTables", new { restaurantId = updateTableViewModel.FK_RestaurantId });
             }
 
             TempData["ErrorMessage"] = "Error updating table. Please try again.";
-
-            return View("Error");
+            return View(updateTableViewModel);
         }
 
         // DELETE ACTIONS
@@ -354,13 +340,12 @@ namespace RestaurantMVC.Controllers
             
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Restaurant deleted successfully!";
+                TempData["SuccessMessage"] = "Restaurant deleted successfully!";
                 return RedirectToAction("ViewRestaurants");
             }
 
             TempData["ErrorMessage"] = "Error deleting restaurant. Please try again.";
-
-            return View("Error");
+            return RedirectToAction("ViewRestaurants");
         }
 
         [HttpPost]
@@ -370,15 +355,15 @@ namespace RestaurantMVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Table deleted successfully!";
+                TempData["SuccessMessage"] = "Table deleted successfully!";
                 return RedirectToAction("ViewTables");
             }
 
             var errorMessage = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError("", $"Error deleting table item: {errorMessage}");
-            TempData["ErrorMessage"] = "Error deleting table. Please try again.";
+            TempData["ErrorMessage"] = "Error deleting table due to existing booking! Delete booking first.";
 
-            return View("Error");
+            return RedirectToAction("ViewTables");
         }
 
         [HttpPost]
@@ -388,7 +373,7 @@ namespace RestaurantMVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Dish deleted successfully!";
+                TempData["SuccessMessage"] = "Dish deleted successfully!";
                 return RedirectToAction("ViewMenus", new { restaurantId = ViewBag.RestaurantId });
             }
 
@@ -396,7 +381,7 @@ namespace RestaurantMVC.Controllers
             ModelState.AddModelError("", $"Error deleting menu item: {errorMessage}");
             TempData["ErrorMessage"] = "Error deleting dish. Please try again.";
 
-            return View("Error");
+            return RedirectToAction("ViewMenus");
         }
 
         [HttpPost]
@@ -406,12 +391,12 @@ namespace RestaurantMVC.Controllers
 
             if (response.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Booking deleted successfully!";
+                TempData["SuccessMessage"] = "Booking deleted successfully!";
                 return RedirectToAction("ViewBookings");
             }
 
             TempData["ErrorMessage"] = "Error deleting booking. Please try again.";
-            return View("Error");
+            return RedirectToAction("ViewBookings");
         }
     }
 }

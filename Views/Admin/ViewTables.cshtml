@@ -4,6 +4,15 @@
     ViewBag.Title = "View Tables";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
+}
+
 <div class="admin-container mt-5 d-flex justify-content-center text-center">
     <div class="admin-table-wrapper">
         <h1 class="text-center mb-4">Tables</h1>

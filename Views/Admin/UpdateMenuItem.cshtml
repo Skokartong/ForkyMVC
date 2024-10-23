@@ -1,46 +1,51 @@
 ﻿@model ForkyMVC.Models.Restaurant.Update.UpdateMenuViewModel
 
-<div class="container mt-5 admin-card">
-    <h1 class="text-center">Edit Dish</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="edit-form-card">
+                <h1>Edit Dish</h1>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
+                }
 
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
-    }
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
-    }
+                <form asp-action="UpdateMenuItem" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="FK_RestaurantId" />
+                    <div class="form-group">
+                        <label asp-for="NameOfDish">Dish Name</label>
+                        <input asp-for="NameOfDish" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Drink">Drink</label>
+                        <input asp-for="Drink" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ingredients">Ingredients</label>
+                        <input asp-for="Ingredients" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price">Price</label>
+                        <input asp-for="Price" type="number" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="IsAvailable">Available</label>
+                        <input asp-for="IsAvailable" type="checkbox" />
+                    </div>
 
-    <form asp-action="UpdateMenuItem" method="post">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="FK_RestaurantId" />
+                    <button type="submit" class="btn btn-warning">Save Changes</button>
+                </form>
 
-        <div class="form-group">
-            <label for="NameOfDish">Dish Name</label>
-            <input asp-for="NameOfDish" class="form-control" />
+                <button class="btn mint-green-btn mt-3" onclick="window.history.back();">Go back</button>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="Drink">Drink</label>
-            <input asp-for="Drink" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="Ingredients">Ingredients</label>
-            <input asp-for="Ingredients" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="Price">Price</label>
-            <input asp-for="Price" type="number" class="form-control" />
-        </div>
-        <div class="form-group">
-            <label for="IsAvailable">Available</label>
-            <input asp-for="IsAvailable" type="checkbox" />
-        </div>
-
-        <button type="submit" class="btn btn-warning">Save Changes</button>
-    </form>
-
-    <button class="btn mint-green-btn mt-3" onclick="window.history.back();">Go back</button>
+    </div>
 </div>
+
 
 

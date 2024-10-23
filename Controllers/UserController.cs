@@ -142,8 +142,7 @@ namespace RestaurantMVC.Controllers
                 return RedirectToAction("ViewBookings");
             }
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            TempData["ErrorMessage"] = "Could not book table: " + errorMessage;
+            TempData["ErrorMessage"] = "Failed to update booking";
             return View(addBookingViewModel);
         }
 
@@ -174,8 +173,7 @@ namespace RestaurantMVC.Controllers
                 return RedirectToAction("ViewBookings");
             }
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            TempData["ErrorMessage"] = "Could not update booking: " + errorMessage;
+            TempData["ErrorMessage"] = "Failed to update booking";
             return View(updateBookingViewModel);
         }
 
@@ -189,8 +187,7 @@ namespace RestaurantMVC.Controllers
                 return RedirectToAction("ViewBookings");
             }
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
-            TempData["ErrorMessage"] = "Could not delete booking: " + errorMessage;
+            TempData["ErrorMessage"] = "Failed to delete booking";
             return RedirectToAction("ViewBookings");
         }
     }
