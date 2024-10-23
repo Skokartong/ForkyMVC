@@ -17,7 +17,6 @@
                     <th>Start</th>
                     <th>End</th>
                     <th>Table</th>
-                    <th>Message</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +29,11 @@
                         <td>@booking.BookingStart.ToString("g")</td>
                         <td>@booking.BookingEnd.ToString("g")</td>
                         <td>@booking.FK_TableId</td>
-                        <td>@booking.Message</td>
+                        <td>
+                            <form method="post" asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 }
             </tbody>
