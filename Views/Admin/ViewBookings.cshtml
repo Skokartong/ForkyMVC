@@ -4,39 +4,41 @@
     ViewData["Title"] = "Customer Bookings";
 }
 
-<h1 class="my-4 text-center">Customer Bookings</h1>
-
-<div class="container">
-    <div class="table-responsive">
-        <table class="table table-bordered admin-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Restaurant</th>
-                    <th>Guests</th>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Table</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var booking in Model)
-                {
+<div class="admin-container mt-5 d-flex justify-content-center">
+    <div class="admin-table-wrapper">
+        <h1 class="text-center mb-4">Bookings</h1>
+        <div class="admin-table-responsive">
+            <table class="table table-bordered admin-table">
+                <thead class="admin-table-header">
                     <tr>
-                        <td>@booking.CustomerName</td>
-                        <td>@booking.RestaurantName</td>
-                        <td>@booking.NumberOfGuests</td>
-                        <td>@booking.BookingStart.ToString("g")</td>
-                        <td>@booking.BookingEnd.ToString("g")</td>
-                        <td>@booking.FK_TableId</td>
-                        <td>
-                            <form method="post" asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" onsubmit="return confirm('Are you sure you want to delete this booking?');">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
+                        <th>Name</th>
+                        <th>Restaurant</th>
+                        <th>Guests</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Table</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                    {
+                        <tr>
+                            <td>@booking.CustomerName</td>
+                            <td>@booking.RestaurantName</td>
+                            <td>@booking.NumberOfGuests</td>
+                            <td>@booking.BookingStart.ToString("g")</td>
+                            <td>@booking.BookingEnd.ToString("g")</td>
+                            <td>@booking.FK_TableId</td>
+                            <td>
+                                <form method="post" asp-action="DeleteBooking" asp-route-bookingId="@booking.Id" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

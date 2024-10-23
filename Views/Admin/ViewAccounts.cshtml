@@ -4,34 +4,37 @@
     ViewBag.Title = "View Accounts";
 }
 
-<div class="container mt-5 text-center">
-    <h1>Accounts</h1>
-    <div class="table-responsive">
-        <table class="table table-bordered admin-table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var account in Model)
-                {
+<div class="admin-container mt-5 d-flex justify-content-center">
+    <div class="admin-table-wrapper">
+        <h1 class="text-center mb-4">Accounts</h1>
+        <div class="admin-table-responsive">
+            <table class="table table-bordered admin-table">
+                <thead class="admin-table-header">
                     <tr>
-                        <td>@account.Id</td>
-                        <td>@account.FirstName</td>
-                        <td>@account.LastName</td>
-                        <td>@account.Email</td>
-                        <td>@account.Phone</td>
-                        <td>@account.Address</td>
+                        <th>Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var account in Model)
+                    {
+                        <tr>
+                            <td>@account.Id</td>
+                            <td>@account.FirstName</td>
+                            <td>@account.LastName</td>
+                            <td>@account.Email</td>
+                            <td>@account.Phone</td>
+                            <td>@account.Address</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
 
