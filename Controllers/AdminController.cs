@@ -398,5 +398,20 @@ namespace RestaurantMVC.Controllers
 
             return View("Error");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBooking(int bookingId)
+        {
+            var response = await _client.DeleteAsync($"{baseUri}deletebooking/{bookingId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "Booking deleted successfully!";
+                return RedirectToAction("ViewBookings");
+            }
+
+            TempData["ErrorMessage"] = "Error deleting booking. Please try again.";
+            return View("Error");
+        }
     }
 }
